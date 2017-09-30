@@ -1,12 +1,11 @@
 <?php
 
-set_include_path("/Applications/XAMPP/xamppfiles/lib/php");
 include_once("JSON.php");
 
-$json = new Services_JSON();
+//$json = new Services_JSON();
 
-$link = mysqli_connect("localhost", "root", "") or die("Could not connect");
-mysqli_select_db($link, "test") or die("Could not select database");
+$link = mysqli_connect("localhost", "ukfl2017g2@localhost", "F19gb2a7") or die("Could not connect");
+/*mysqli_select_db($link, "test") or die("Could not select database");
 
 $arr = array();
 
@@ -16,5 +15,5 @@ while($obj = mysqli_fetch_object($rs)) {
 }
  
 Echo $json->encode($arr);
-
+*/
 ?>
