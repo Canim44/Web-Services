@@ -21,15 +21,8 @@
     //$loginQuery = "SELECT * FROM users";
     $loginQuery = "SELECT COUNT(*) FROM users WHERE username = \"" . $user . "\" AND password = \"" . $pass . "\"";
 
-    // Creating query to validate username and password
-    $rs = mysqli_query($link, $loginQuery);
-
-    // Fetch the results and place into an object
-    while($obj = mysqli_fetch_object($rs)) {
-      $arr[] = $obj;
-    }
-    // Encode the results into a json type object
-    $results = json_encode($arr);
+    // Run query
+    $results = runQuery($link, $loginQuery);
 
     // Variable to hold
     $valid = validateLogin($results);
@@ -45,7 +38,22 @@
     }
 
   }
+  // This procedure standardizes the way queries are run with the results formatted in json
+  // $link and $query are set up in the caller function
+  function runQuery(&$link, $query) {
 
+    // Creating query object
+    $rs = mysqli_query($link, $query);
+
+    // Fetch the results and place into an object
+    while($obj = mysqli_fetch_object($rs)) {
+      $arr[] = $obj;
+    }
+    // Encode the results into a json type object
+    $results = json_encode($arr);
+
+    return $results;
+  }
   // This procedure takes the results from the login query and validates if a login was successful
   function validateLogin($results) {
     $authenticated = "[{\"COUNT(*)\":\"1\"}]";
