@@ -19,12 +19,12 @@
 // 	mysqli_select_db($link, "ukfl2017g2") or die("Error: Database");
 
 	// Creating link to the server
-	$link = serverConnection();
+	//$link = serverConnection();
 	//$arr = array();
 	$user = $_GET["user"];
 	$pass = $_GET["pass"];
 
-	$results = databaseConnection($user, $pass, $link);
+	$results = databaseConnection($user, $pass);
 	// //$loginQuery = "SELECT * FROM users";
 	// $loginQuery = "SELECT COUNT(*) FROM users WHERE username = \"" . $user . "\" AND password = \"" . $pass . "\"";
 	//
