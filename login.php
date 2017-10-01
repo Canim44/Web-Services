@@ -1,7 +1,7 @@
 <?php
 
 // Adding functions to validate login and connect to the server
-require_once("connection.php");
+include_once("connection.php");
 
 function login() {
 	$user = $_GET["user"];

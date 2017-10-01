@@ -19,9 +19,10 @@
   function checkUserExists($usernam, &$link) {
     // Query to check if anything is returned when trying to match by username
     $query = "SELECT * FROM users WHERE username = \"" . $username . "\"";
-    $rs = mysqli_query($link, $query);
+    // Run query
+    $result = runQuery($link, $query);
 
-    
+
   }
 
 ?>
