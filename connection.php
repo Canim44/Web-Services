@@ -15,7 +15,7 @@
   }
 
   // This procedure queries the database with the username and password.
-  function databaseConnection($user, $pass, &$link) {
+  function databaseConnection($user, $pass) {
     // Creating mysqli connection
     $link = serverConnection();
 
