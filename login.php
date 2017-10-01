@@ -8,5 +8,6 @@ function login() {
 	$pass = $_GET["pass"];
 
 	$results = databaseConnection($user, $pass);
+	echo $results;
 }
 ?>
