@@ -33,7 +33,7 @@
     }
     // Encode the results into a json type object
     $results = json_encode($arr);
-
+echo $results;
     // Variable to hold
     $valid = validateLogin($results);
     echo $valid;
