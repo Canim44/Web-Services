@@ -20,7 +20,7 @@
 
     //$loginQuery = "SELECT * FROM users";
     $loginQuery = "SELECT COUNT(*) FROM users WHERE username = \"" . $user . "\" AND password = \"" . $pass . "\"";
-
+echo $loginQuery;
     // Run query
     $results = runQuery($link, $loginQuery);
 echo $results;
