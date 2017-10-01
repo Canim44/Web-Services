@@ -31,10 +31,10 @@
     }
     // Encode the results into a json type object
     $results = json_encode($arr);
-    echo $results;
+
     // Variable to hold
     $valid = validateLogin($results);
-    echo $valid;
+    echo TRUE;
     // // Function call to validate results
     // if ($valid) {
     //   $activeQuery = "UPDATE \"users\" SET lastActivity = CURRENT_TIMESTAMP() WHERE \"username\" = " . $user;
