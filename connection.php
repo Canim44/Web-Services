@@ -23,9 +23,7 @@
     $loginQuery = "SELECT COUNT(*) FROM users WHERE username = \"" . $user . "\" AND password = \"" . $pass . "\"";
 
     // Creating query to validate username and password
-    if (!mysqli_query($link, $loginQuery)) {
-      die ("Error: Login query");
-    }
+    $rs = mysqli_query($link, $loginQuery);
 
     // Fetch the results and place into an object
     while($obj = mysqli_fetch_object($rs)) {
@@ -33,7 +31,7 @@
     }
     // Encode the results into a json type object
     $results = json_encode($arr);
-echo $results;
+    echo $results;
     // Variable to hold
     $valid = validateLogin($results);
     echo $valid;

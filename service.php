@@ -1,6 +1,5 @@
 <?php
 	// Adding functions to validate login and connect to the server
-	require_once("login.php");
 	require_once("connection.php");
 
 // 	// Variables for connection strings
