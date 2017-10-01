@@ -23,7 +23,7 @@
 
     // Run query
     $results = runQuery($link, $loginQuery);
-
+echo $results;
     // Variable to hold
     $valid = validateLogin($results);
 
@@ -38,6 +38,7 @@
     }
 
   }
+
   // This procedure standardizes the way queries are run with the results formatted in json
   // $link and $query are set up in the caller function
   function runQuery(&$link, $query) {
@@ -54,6 +55,7 @@
 
     return $results;
   }
+
   // This procedure takes the results from the login query and validates if a login was successful
   function validateLogin($results) {
     $authenticated = "[{\"COUNT(*)\":\"1\"}]";
