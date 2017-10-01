@@ -4,13 +4,13 @@
   function serverConnection() {
     // Variables for connection strings
     $servername = "localhost";
-    $serveruser = "ukfl2017g2";
+    $serveruser = "ukfl2017g";
     $serverpass = "Ekwi32D98";
     $database = "ukfl2017g2";
 
     // Initializing the link to the MySQL database
-    $link = mysqli_connect($servername, $serveruser, $serverpass) or die("Error: Connection to Server failed");
-    mysqli_select_db($link, $database) or die("Error: Database");
+    $link = mysqli_connect($servername, $serveruser, $serverpass) or die("0: Connection to Server failed");
+    mysqli_select_db($link, $database) or die("0: Database");
     return $link;
   }
 
@@ -34,11 +34,16 @@
 
     // Variable to hold
     $valid = validateLogin($results);
-    echo $valid;
-    // // Function call to validate results
-    // if ($valid) {
-    //   $activeQuery = "UPDATE \"users\" SET lastActivity = CURRENT_TIMESTAMP() WHERE \"username\" = " . $user;
-    // }
+
+    // Function call to validate results
+    if ($valid) {
+      // Create query string to update last activity with CURRENT_TIMESTAMP
+      $activeQuery = "UPDATE \"users\" SET lastActivity = CURRENT_TIMESTAMP() WHERE \"username\" = " . $user;
+      // Error checking if update query fails.
+      if (!$rs = mysqli_query($link, $activeQuery)) {
+        die("0: Could not update last activity");
+      }
+    }
 
   }
 
