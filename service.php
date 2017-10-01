@@ -1,4 +1,5 @@
 <?php
+require_once("login.php");
 // Variables for connection strings
 $servername = "localhost";
 $serveruser = "ukfl2017g2";
@@ -26,7 +27,7 @@ $rs = mysqli_query($link, $loginQuery);
 while($obj = mysqli_fetch_object($rs)) {
 	$arr[] = $obj;
 }
-echo json_encode($arr);
-
-
+$results = json_encode($arr);
+$stuff = validateLogin($results);
+echo $stuff;
 ?>
