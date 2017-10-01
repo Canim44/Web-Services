@@ -17,7 +17,7 @@
   function databaseConnection($user, $pass) {
     // Creating mysqli connection
     $link = serverConnection();
-
+echo "here";
     //$loginQuery = "SELECT * FROM users";
     $loginQuery = "SELECT COUNT(*) FROM users WHERE username = \"" . $user . "\" AND password = \"" . $pass . "\"";
 echo $loginQuery;
