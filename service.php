@@ -1,4 +1,5 @@
 <?php
+	// Adding functions to validate login and connect to the server
 	require_once("login.php");
 	require_once("connection.php");
 
@@ -17,20 +18,22 @@
 // 	$link = mysqli_connect($servername, $serveruser, $serverpass) or die("Error: Connection to Server failed");
 // 	mysqli_select_db($link, "ukfl2017g2") or die("Error: Database");
 
+	// Creating link to the server
 	$link = serverConnection();
 	//$arr = array();
 	$user = $_GET["user"];
 	$pass = $_GET["pass"];
 
-	//$loginQuery = "SELECT * FROM users";
-	$loginQuery = "SELECT COUNT(*) FROM users WHERE username = \"" . $user . "\" AND password = \"" . $pass . "\"";
-
-	$rs = mysqli_query($link, $loginQuery);
-
-	while($obj = mysqli_fetch_object($rs)) {
-		$arr[] = $obj;
-	}
-	$results = json_encode($arr);
-	$stuff = validateLogin($results);
+	$stuff = databaseConnection($user, $pass);
+	// //$loginQuery = "SELECT * FROM users";
+	// $loginQuery = "SELECT COUNT(*) FROM users WHERE username = \"" . $user . "\" AND password = \"" . $pass . "\"";
+	//
+	// $rs = mysqli_query($link, $loginQuery);
+	//
+	// while($obj = mysqli_fetch_object($rs)) {
+	// 	$arr[] = $obj;
+	// }
+	// $results = json_encode($arr);
+	// $stuff = validateLogin($results);
 	echo $stuff;
 ?>
