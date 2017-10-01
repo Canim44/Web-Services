@@ -1,5 +1,4 @@
 <?php
-
   // This procedure initiates the connection with the database server and database itself.
   function serverConnection() {
     // Variables for connection strings
@@ -9,8 +8,8 @@
     $database = "ukfl2017g2";
 
     // Initializing the link to the MySQL database
-    $link = mysqli_connect($servername, $serveruser, $serverpass) or die("0: Connection to Server failed");
-    mysqli_select_db($link, $database) or die("0: Database");
+    $link = mysqli_connect($servername, $serveruser, $serverpass) or die("Error: Connection to Server failed");
+    mysqli_select_db($link, $database) or die("Error: Database");
     return $link;
   }
 
@@ -41,7 +40,7 @@
       $activeQuery = "UPDATE \"users\" SET lastActivity = CURRENT_TIMESTAMP() WHERE \"username\" = " . $user;
       // Error checking if update query fails.
       if (!$rs = mysqli_query($link, $activeQuery)) {
-        die("0: Could not update last activity");
+        die("Error: Could not update last activity");
       }
     }
 
