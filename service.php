@@ -24,7 +24,7 @@
 	$user = $_GET["user"];
 	$pass = $_GET["pass"];
 
-	$stuff = databaseConnection($user, $pass);
+	$results = databaseConnection($user, $pass, $link);
 	// //$loginQuery = "SELECT * FROM users";
 	// $loginQuery = "SELECT COUNT(*) FROM users WHERE username = \"" . $user . "\" AND password = \"" . $pass . "\"";
 	//
@@ -35,5 +35,4 @@
 	// }
 	// $results = json_encode($arr);
 	// $stuff = validateLogin($results);
-	echo $stuff;
 ?>
