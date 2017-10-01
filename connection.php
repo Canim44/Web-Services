@@ -37,7 +37,7 @@
     // Function call to validate results
     if ($valid) {
       // Create query string to update last activity with CURRENT_TIMESTAMP
-      $activeQuery = "UPDATE \"users\" SET lastActivity = CURRENT_TIMESTAMP() WHERE \"username\" = " . $user;
+      $activeQuery = "UPDATE users SET lastActivity = CURRENT_TIMESTAMP() WHERE username = \"" . $user . "\"";
       // Error checking if update query fails.
       if (!$rs = mysqli_query($link, $activeQuery)) {
         die("Error: Could not update last activity");
