@@ -34,7 +34,7 @@
 
     // Variable to hold
     $valid = validateLogin($results);
-    echo TRUE;
+    echo $valid;
     // // Function call to validate results
     // if ($valid) {
     //   $activeQuery = "UPDATE \"users\" SET lastActivity = CURRENT_TIMESTAMP() WHERE \"username\" = " . $user;
