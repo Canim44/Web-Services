@@ -11,18 +11,11 @@
   if (!checkUserExists) {
     die("Error: Username already exists");
   }
-
-
-
-
-
   function checkUserExists($usernam, &$link) {
     // Query to check if anything is returned when trying to match by username
     $query = "SELECT * FROM users WHERE username = \"" . $username . "\"";
     // Run query
     $result = runQuery($link, $query);
-
-
   }
 
 ?>
