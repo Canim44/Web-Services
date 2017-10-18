@@ -37,7 +37,7 @@ function userLogin($user, $pass) {
 		$authenticated = "[{\"COUNT(*)\":\"1\"}]";
 
 		if ($results == $authenticated) {
-			echo "Login successful";
+			return "Login successful";
 		}
 		else {
 			die("Fail: Username/password combination not found");
