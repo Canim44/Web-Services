@@ -4,7 +4,7 @@ include_once("connection.php");
 
 $user = $_GET["user"];
 $pass = $_GET["pass"];
-
+/*
 $results = userLogin($user, $pass);
 validateLogin($results);
 
@@ -41,5 +41,5 @@ function userLogin($user, $pass) {
 		else {
 			die("Fail: Username/password combination not found");
 		}
-	}
+	}*/
 ?>
