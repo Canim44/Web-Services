@@ -6,9 +6,10 @@ $user = $_GET["user"];
 $pass = $_GET["pass"];
 
 $results = userLogin($user, $pass);
-echo $results;
+validateLogin($results);
 
 // This procedure queries the database with the username and password.
+// The URL will be http://ukfl2017g2.optionapps.com/login.php?user=USERNAME&pass=PASSWORD
 function userLogin($user, $pass) {
 	// Creating mysqli connection
 	$link = serverConnection();
@@ -40,5 +41,5 @@ function userLogin($user, $pass) {
 		else {
 			die("Fail: Username/password combination not found");
 		}
-	}	
+	}
 ?>
