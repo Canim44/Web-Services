@@ -4,9 +4,8 @@ include_once("connection.php");
 
 $user = $_GET["user"];
 $pass = $_GET["pass"];
-/*
+
 $results = userLogin($user, $pass);
-validateLogin($results);
 
 // This procedure queries the database with the username and password.
 // The URL will be http://ukfl2017g2.optionapps.com/login.php?user=USERNAME&pass=PASSWORD
@@ -20,6 +19,8 @@ function userLogin($user, $pass) {
 	// Variable to hold
 	$valid = validateLogin($results);
 
+	echo $valid;
+/*
 	// Function call to validate results
 	if ($valid) {
 		// Create query string to update last activity with CURRENT_TIMESTAMP
@@ -30,7 +31,7 @@ function userLogin($user, $pass) {
 			die("Error: Could not update last activity");
 		}
 	}
-
+*/
 	// This procedure takes the results from the login query and validates if a login was successful
 	function validateLogin($results) {
 		$authenticated = "[{\"COUNT(*)\":\"1\"}]";
@@ -41,5 +42,5 @@ function userLogin($user, $pass) {
 		else {
 			die("Fail: Username/password combination not found");
 		}
-	}*/
+	}
 ?>
