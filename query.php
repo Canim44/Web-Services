@@ -1,6 +1,6 @@
 <?php
-//include_once("validSymbol.php");
 
+include_once("parseJSON.php");
 // Initialize client URL variable
 $ch = curl_init();
 
@@ -21,7 +21,7 @@ if (strpos($output, " - produced no matches.")) {
 else {
 	// Checking if the user is requesting stock or stock option information
 	if ($type == 1) {
-		$url = "http://finance.google.com/finance?q=" . $symbol . "&output=json"; 
+		$url = "http://finance.google.com/finance?q=" . $symbol . "&output=json";
 	}
 	else {
 		$url = "http://finance.google.com/finance/option_chain?q=" . $symbol . "&output=json";
@@ -31,6 +31,10 @@ else {
 
 	$output = curl_exec($ch);
 
+	if ($type == 1)
+		{
+			parseStock($output);
+		}
 	echo $output;
 }
 ?>

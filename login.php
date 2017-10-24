@@ -20,6 +20,10 @@ function userLogin($user, $pass) {
 	// Variable to hold the login results for verification
 	$valid = validateLogin($results);
 
+	if ($valid) {
+		echo 1;
+	}
+
 	// Function call to validate results
 	if ($valid) {
 		// Create query string to update last activity with CURRENT_TIMESTAMP
