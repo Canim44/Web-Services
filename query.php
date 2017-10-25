@@ -35,6 +35,5 @@ else {
 		{
 			parseStock($output);
 		}
-	echo $output;
 }
 ?>
