@@ -10,30 +10,6 @@ function parseStock($output)
     $change = getField($output, $parsePosition, $endQuote, "c");
     $price = getField($output, $parsePosition, $endQuote, "l");
 
-    // do {
-    //   $symbol = getField($output, $parsePosition, $endQuote);
-    //   $parsePosition = $endQuote + 1;
-    // } while ($symbol != "symbol");
-    // $symbol = getField($output, $parsePosition, $endQuote);
-    //
-    // do {
-    //   $exchange = getField($output, $parsePosition, $endQuote);
-    //   $parsePosition = $endQuote + 1;
-    // } while ($exchange != "exchange");
-    // $exchange = getField($output, $parsePosition, $endQuote);
-    //
-    // do {
-    //   $name = getField($output, $parsePosition, $endQuote);
-    //   $parsePosition = $endQuote + 1;
-    // } while ($name != "name");
-    // $name = getField($output, $parsePosition, $endQuote);
-    //
-    // do {
-    //   $change = getFiel($output, $parsePosition, $endQuote);
-    //   $parsePosition = $endQuote + 1;
-    // } while ($change != "c");
-    // $change = getField($output, $parsePosition, $endQuote);
-
     echo $symbol;
     echo $exchange;
     echo $name;
@@ -60,16 +36,6 @@ function getField($input, &$startQuote, &$endQuote, $token) {
   $startQuote++;
   $endQuote = strpos($input, "\"", $startQuote);
   $stringReturn = substr($input, $startQuote, $endQuote - $startQuote);
-
-  // if ($startQuote == 0) {
-  //   $startQuote = strpos($input, "\"");
-  // }
-  // else {
-  //   $startQuote = strpos($input, "\"", $startQuote);
-  // }
-  // $startQuote++;
-  // $endQuote = strpos($input, "\"", $startQuote);
-  // $stringReturn = substr($input, $startQuote, $endQuote - $startQuote);
 
   return $stringReturn;
 }
