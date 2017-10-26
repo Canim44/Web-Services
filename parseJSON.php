@@ -24,7 +24,8 @@ function parseStock($output)
 function parseOption($outoput) {
   $parsePosition = 0;
   $endQuote = 0;
-  
+
+
 }
 
 // This procedure takes the JSON input and parses it based on the tokens provided in the parseStock() and parseOption() functions
