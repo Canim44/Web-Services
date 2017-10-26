@@ -15,6 +15,8 @@ curl_setopt($ch, CURLOPT_URL, $url);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 
 $output = curl_exec($ch);
+
+// Error checking to see if there were no matches to the search
 if (strpos($output, " - produced no matches.")) {
 	echo "Search failed";
 }
@@ -32,8 +34,12 @@ else {
 	$output = curl_exec($ch);
 
 	if ($type == 1)
-		{
-			parseStock($output);
-		}
+	{
+		parseStock($output);
+	}
+	else
+	{
+		parseOption($ouput);
+	}
 }
 ?>

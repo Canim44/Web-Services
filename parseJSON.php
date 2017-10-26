@@ -1,22 +1,34 @@
 <?php
+
+// This function will parse the data provided by Google Finance's stock JSON
 function parseStock($output)
 {
+    // Initializing the variables to hold the index of the parse and
+    // the position of the end quote of each token and field
     $parsePosition = 0;
     $endQuote = 0;
 
+    // Placing the relevant data into variables
     $symbol = getField($output, $parsePosition, $endQutoe, "symbol");
     $exchange = getField($output, $parsePosition, $endQutoe, "exchange");
     $name = getField($output, $parsePosition, $endQutoe, "name");
     $change = getField($output, $parsePosition, $endQuote, "c");
     $price = getField($output, $parsePosition, $endQuote, "l");
-
-    echo $symbol;
-    echo $exchange;
-    echo $name;
-    echo $change;
-    echo $price;
+    $changePercent = getField($output, $parsePosition, $endQuote, "cp");
+    $openPrice = getField($output, $parsePosition, $endQuote, "op");
+    $high = getField($output, $parsePosition, $endQuote, "hi");
+    $low = getField($output, $parsePosition, $endQuote, "lo");
 }
 
+// This function will parse the data provided by the Google Finance's option json
+function parseOption($outoput) {
+  $parsePosition = 0;
+  $endQuote = 0;
+
+  
+}
+
+// This procedure takes the JSON input and parses it based on the tokens provided in the parseStock() and parseOption() functions
 function getField($input, &$startQuote, &$endQuote, $token) {
   do {
     if ($startQuote == 0) {
@@ -40,8 +52,4 @@ function getField($input, &$startQuote, &$endQuote, $token) {
   return $stringReturn;
 }
 
-function copyToVariabel($input, $variable, $index, $endIndex) {
-  $variable = substr($output, $index, $sendIndex + $index);
-  return $variable;
-}
 ?>
