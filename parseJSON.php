@@ -24,7 +24,6 @@ function parseStock($output)
 function parseOption($outoput) {
   $parsePosition = 0;
   $endQuote = 0;
-
   
 }
 
