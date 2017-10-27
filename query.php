@@ -39,7 +39,7 @@ else {
 	}
 	else
 	{
-		parseOption($ouput);
+		parseOption($output);
 	}
 }
 ?>
