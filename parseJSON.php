@@ -1,38 +1,58 @@
 <?php
-/*{"expiry":{"y":2017,"m":11,"d":17},"expirations":[{"y":2017,"m":11,"d":17},{"y":2018,"m":1,"d":19}],*/
+function printStuff($variable, $variableName) {
+    echo "<br>" . $variableName . " - " . $variable . "</br>";
+}
 
 // This function will parse the data provided by the Google Finance's option json
 function parseOption($output) {
-  $startPosition = 0;
-  $endPosition = 0;
-
-  getExpiry($output, $startPosition, $endPosition);
-  //$symbol = getField($output, $parsePosition, $endQutoe, "symbol");
-  if (strpos($output, "expirations", $startPosition) != NULL) {
-      //do {
-            $startPosition = strpos($output, "expirations", $startPosition);
-          getExpiry($output, $startPosition, $endPosition);
-          getExpiry($output, $startPosition, $endPosition);
-      //} while ();
-  }
+    $startPosition = 0;
+    $endPosition = 0;
+    $nextSection = 0;
+    getExpiry($output, $startPosition, $endPosition, 1);
+    //$symbol = getField($output, $parsePosition, $endQutoe, "symbol");
+    if (strpos($output, "expirations", $startPosition) != NULL) {
+        //do {
+        $startPosition = strpos($output, "expirations");
+        $nextSection = strpos($output, "puts");
+for ($i = 0; $i < 12; $i++) {
+}
+        getExpiry($output, $startPosition, $endPosition, 2);
+        //echo $startPosition;
+        //getExpiry($output, $startPosition, $endPosition, 2);
+        //} while ($startPosition <= $nextSection);
+    }
 }
 
-
-function getExpiry($input, &$startPosition, &$endPosition) {
+function getExpiry($input, &$startPosition, &$endPosition, $firstTime) {
     // Block moves beyond the "expiry" or "expiration" label
-    echo $startPosition;
-    //echo $input[$startPosition];
-    $startPosition = strpos($input, "\"");
-    $startPosition++;
-    $endPosition = strpos($input, "\"", $startPosition);
+    if ($firstTime == 1) {
+        $startPosition = strpos($input, "\"");
+    }
+    else {
 
-    // Each function call will get the year, month, and date in that order.
-    $stringReturn = parseDate($input, $startPosition, $endPosition, ",");
-//echo $stringReturn;
-    $stringReturn = parseDate($input, $startPosition, $endPosition, ",");
-//echo $stringReturn;
-    $stringReturn = parseDate($input, $startPosition, $endPosition, "}");
-//echo $stringReturn;
+        $startPosition = strpos($input, "\"", $startPosition);
+//        printStuff($startPosition, "Start Position");
+    }
+
+    $startPosition++;
+    printStuff($startPosition, "Start Position");
+    $endPosition = strpos($input, "\"", $startPosition);
+//    printStuff($endPosition, "End Position");
+    $tempyear = parseDate($input, $startPosition, $endPosition, ",");
+    $tempmonth = parseDate($input, $startPosition, $endPosition, ",");
+    $tempdate = parseDate($input, $startPosition, $endPosition, "}");
+if ($firstTime == 2) {
+    printStuff($tempyear, "Temp Year");
+    printStuff($tempmonth, "Temp Month");
+    printStuff($tempdate, "Temp Date");
+}
+//     // Each function call will get the year, month, and date in that order.
+//     $stringReturn parseDate($input, $startPosition, $endPosition, ",");
+// echo $stringReturn;
+//     $stringReturn = parseDate($input, $startPosition, $endPosition, ",");
+// echo $stringReturn;
+//     $stringReturn = parseDate($input, $startPosition, $endPosition, "}");
+// echo $stringReturn;
 }
 // This function parses through the fields and the data for the date
 function parseDate($input, &$startPosition, &$endPosition, $endChar) {
@@ -41,10 +61,13 @@ function parseDate($input, &$startPosition, &$endPosition, $endChar) {
     $startPosition = strpos($input, "\"", $startPosition);
     $startPosition++;
     $endPosition = strpos($input, "\"", $startPosition);
-
+for ($i = 0; $i < 10; $i++) {
+    echo $input[$startPosition + $i];
+}
     //Block moves to get the value
     $startPosition = $endPosition + 1;
     $startPosition = strpos($input, ":", $startPosition);
+    printStuff($startPosition, "Start Position in Parse Date");
     $startPosition++;
     $endPosition = strpos($input, $endChar, $startPosition);
 
@@ -95,5 +118,4 @@ function getField($input, &$startPosition, &$endPosition, $token) {
 
     return $stringReturn;
 }
-
 ?>
