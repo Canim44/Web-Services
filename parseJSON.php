@@ -4,41 +4,48 @@
 // This function will parse the data provided by the Google Finance's option json
 function parseOption($output) {
   $parsePosition = 0;
-  $endQuote = 0;
+  $endPosition = 0;
 
-  getExpiry($output, $parsePosition, $endQuote);
+  getExpiry($output, $parsePosition, $endPosition);
+  echo $parsePosition;
   //$symbol = getField($output, $parsePosition, $endQutoe, "symbol");
-
+  if (strpos($output, "expirations", $parsePosition) != NULL) {
+      //do {
+          getExpiry($output, $parsePosition, $endPosition);
+          getExpiry($output, $parsePosition, $endPosition);
+      //} while ();
+  }
 }
-function getExpiry($input, $startQuote, $endQuote) {
-    // Block moves beyond the "expiry" label
-    $startQuote = strpos($input, "\"");
-    $startQuote++;
-    $endQuote = strpos($input, "\"", $startQuote);
+function getExpiry($input, &$startPosition, &$endPosition) {
+    // Block moves beyond the "expiry" or "expiration" label
+    $startPosition = strpos($input, "\"");
+    $startPosition++;
+    $endPosition = strpos($input, "\"", $startPosition);
 
-    $stringReturn = parseDate($input, $startQuote, $endQuote, ",");
-    echo $stringReturn;
-    $stringReturn = parseDate($input, $startQuote, $endQuote, ",");
-    echo $stringReturn;
-    $stringReturn = parseDate($input, $startQuote, $endQuote, "}");
-
-    echo $stringReturn;
+    // Each function call will get the year, month, and date in that order.
+    $stringReturn = parseDate($input, $startPosition, $endPosition, ",");
+//    echo $stringReturn;
+    $stringReturn = parseDate($input, $startPosition, $endPosition, ",");
+//    echo $stringReturn;
+    $stringReturn = parseDate($input, $startPosition, $endPosition, "}");
+//echo $startPosition;
+//    echo $stringReturn;
 }
 // This function parses through the fields and the data for the date
-function parseDate($input, &$startQuote, &$endQuote, $endChar) {
+function parseDate($input, &$startPosition, &$endPosition, $endChar) {
     // Block moves to get to the label
-    $startQuote = $endQuote + 1;
-    $startQuote = strpos($input, "\"", $startQuote);
-    $startQuote++;
-    $endQuote = strpos($input, "\"", $startQuote);
+    $startPosition = $endPosition + 1;
+    $startPosition = strpos($input, "\"", $startPosition);
+    $startPosition++;
+    $endPosition = strpos($input, "\"", $startPosition);
 
     //Block moves to get the value
-    $startQuote = $endQuote + 1;
-    $startQuote = strpos($input, ":", $startQuote);
-    $startQuote++;
-    $endQuote = strpos($input, $endChar, $startQuote);
+    $startPosition = $endPosition + 1;
+    $startPosition = strpos($input, ":", $startPosition);
+    $startPosition++;
+    $endPosition = strpos($input, $endChar, $startPosition);
 
-    $stringReturn = substr($input, $startQuote, $endQuote - $startQuote);
+    $stringReturn = substr($input, $startPosition, $endPosition - $startPosition);
     return $stringReturn;
 
 }
@@ -48,40 +55,40 @@ function parseStock($output) {
     // Initializing the variables to hold the index of the parse and
     // the position of the end quote of each token and field
     $parsePosition = 0;
-    $endQuote = 0;
+    $endPosition = 0;
 
     // Placing the relevant data into variables
     $symbol = getField($output, $parsePosition, $endQutoe, "symbol");
     $exchange = getField($output, $parsePosition, $endQutoe, "exchange");
     $name = getField($output, $parsePosition, $endQutoe, "name");
-    $change = getField($output, $parsePosition, $endQuote, "c");
-    $price = getField($output, $parsePosition, $endQuote, "l");
-    $changePercent = getField($output, $parsePosition, $endQuote, "cp");
-    $openPrice = getField($output, $parsePosition, $endQuote, "op");
-    $high = getField($output, $parsePosition, $endQuote, "hi");
-    $low = getField($output, $parsePosition, $endQuote, "lo");
+    $change = getField($output, $parsePosition, $endPosition, "c");
+    $price = getField($output, $parsePosition, $endPosition, "l");
+    $changePercent = getField($output, $parsePosition, $endPosition, "cp");
+    $openPrice = getField($output, $parsePosition, $endPosition, "op");
+    $high = getField($output, $parsePosition, $endPosition, "hi");
+    $low = getField($output, $parsePosition, $endPosition, "lo");
 }
 
 // This procedure takes the JSON input and parses it based on the tokens provided in the parseStock() and parseOption() functions
-function getField($input, &$startQuote, &$endQuote, $token) {
+function getField($input, &$startPosition, &$endPosition, $token) {
     do {
-        if ($startQuote == 0) {
-            $startQuote = strpos($input, "\"");
+        if ($startPosition == 0) {
+            $startPosition = strpos($input, "\"");
         }
         else {
-            $startQuote = strpos($input, "\"", $startQuote);
+            $startPosition = strpos($input, "\"", $startPosition);
         }
-        $startQuote++;
-        $endQuote = strpos($input, "\"", $startQuote);
-        $stringReturn = substr($input, $startQuote, $endQuote - $startQuote);
+        $startPosition++;
+        $endPosition = strpos($input, "\"", $startPosition);
+        $stringReturn = substr($input, $startPosition, $endPosition - $startPosition);
     } while ($stringReturn != $token);
 
-    $startQuote = $endQuote + 1;
+    $startPosition = $endPosition + 1;
 
-    $startQuote = strpos($input, "\"", $startQuote);
-    $startQuote++;
-    $endQuote = strpos($input, "\"", $startQuote);
-    $stringReturn = substr($input, $startQuote, $endQuote - $startQuote);
+    $startPosition = strpos($input, "\"", $startPosition);
+    $startPosition++;
+    $endPosition = strpos($input, "\"", $startPosition);
+    $stringReturn = substr($input, $startPosition, $endPosition - $startPosition);
 
     return $stringReturn;
 }
