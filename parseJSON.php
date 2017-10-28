@@ -3,33 +3,36 @@
 
 // This function will parse the data provided by the Google Finance's option json
 function parseOption($output) {
-  $parsePosition = 0;
+  $startPosition = 0;
   $endPosition = 0;
 
-  getExpiry($output, $parsePosition, $endPosition);
-  echo $parsePosition;
+  getExpiry($output, $startPosition, $endPosition);
   //$symbol = getField($output, $parsePosition, $endQutoe, "symbol");
-  if (strpos($output, "expirations", $parsePosition) != NULL) {
+  if (strpos($output, "expirations", $startPosition) != NULL) {
       //do {
-          getExpiry($output, $parsePosition, $endPosition);
-          getExpiry($output, $parsePosition, $endPosition);
+            $startPosition = strpos($output, "expirations", $startPosition);
+          getExpiry($output, $startPosition, $endPosition);
+          getExpiry($output, $startPosition, $endPosition);
       //} while ();
   }
 }
+
+
 function getExpiry($input, &$startPosition, &$endPosition) {
     // Block moves beyond the "expiry" or "expiration" label
+    echo $startPosition;
+    //echo $input[$startPosition];
     $startPosition = strpos($input, "\"");
     $startPosition++;
     $endPosition = strpos($input, "\"", $startPosition);
 
     // Each function call will get the year, month, and date in that order.
     $stringReturn = parseDate($input, $startPosition, $endPosition, ",");
-//    echo $stringReturn;
+//echo $stringReturn;
     $stringReturn = parseDate($input, $startPosition, $endPosition, ",");
-//    echo $stringReturn;
+//echo $stringReturn;
     $stringReturn = parseDate($input, $startPosition, $endPosition, "}");
-//echo $startPosition;
-//    echo $stringReturn;
+//echo $stringReturn;
 }
 // This function parses through the fields and the data for the date
 function parseDate($input, &$startPosition, &$endPosition, $endChar) {
@@ -46,8 +49,8 @@ function parseDate($input, &$startPosition, &$endPosition, $endChar) {
     $endPosition = strpos($input, $endChar, $startPosition);
 
     $stringReturn = substr($input, $startPosition, $endPosition - $startPosition);
+    //$startPosition = $endPosition + 1;
     return $stringReturn;
-
 }
 
 // This function will parse the data provided by Google Finance's stock JSON
