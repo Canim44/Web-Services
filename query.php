@@ -37,7 +37,7 @@ else {
 	{
 		parseStock($output);
 	}
-	else
+	else if ($type != 1)
 	{
 		parseOption($output);
 	}
