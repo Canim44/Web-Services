@@ -35,9 +35,9 @@ function parseOption($output) {
 
     getExpiry($output, $startPosition, $endPosition, 1);
 
-
     if (strpos($output, "expirations", $startPosition != NULL)) {
         $startPosition = strpos($output, "\"expirations", $startPosition);
+        getExpiry($output, $startPosition, $endPosition, 2);
         printStuff($startPosition, 1);
         getExpiry($output, $startPosition, $endPosition, 2);
 //        getExpiry($output, $startPosition, $endPosition, 2);
@@ -59,13 +59,20 @@ function getExpiry($input, &$startPosition, &$endPosition, $firstTime) {
         $startPosition = strpos($input, "\"");
     }
     else {
-        if ($startPosition <= strpos($input, "expirations")) {
-            //$startPosition = strpos($input, "\"", $startPosition);
+        if ($startPosition >= strpos($input, "expirations")) {
+            echo "here";
+            $startPosition = $startPosition - 4;
+            $startPosition = strpos($input, "\"");
         }
-        // else {
-        //     $startPosition = strpos($input, "\"", $startPosition);
-        //     $startPosition--;
+        //$startPosition = strrpos($input, ",", $startPosition);
+        printStuff($startPosition, 1);
+        // if ($startPosition <= strpos($input, "expirations")) {
+        //     //$startPosition = strpos($input, "\"", $startPosition);
         // }
+        // // else {
+        // //     $startPosition = strpos($input, "\"", $startPosition);
+        // //     $startPosition--;
+        // // }
     }
 
     $startPosition++;
@@ -75,23 +82,20 @@ function getExpiry($input, &$startPosition, &$endPosition, $firstTime) {
     $tempmonth = parseDate($input, $startPosition, $endPosition, ",");
     $tempdate = parseDate($input, $startPosition, $endPosition, "}");
 
-if ($firstTime == 2) {
     printStuff($tempyear, 3);
     printStuff($tempmonth, 4);
     printStuff($tempdate, 5);
-}
+
 
 }
 // This function parses through the fields and the data for the date
 function parseDate($input, &$startPosition, &$endPosition, $endChar) {
-    placeString($input, $startPosition);
     // Block moves to get to the label
     $startPosition = $endPosition + 1;
     $startPosition = strpos($input, "\"", $startPosition);
     $startPosition++;
     $endPosition = strpos($input, "\"", $startPosition);
 
-placeString($input, $startPosition);
     //Block moves to get the value
     $startPosition = $endPosition + 1;
     $startPosition = strpos($input, ":", $startPosition);
