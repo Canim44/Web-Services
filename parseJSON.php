@@ -1,6 +1,30 @@
 <?php
-function printStuff($variable, $variableName) {
+function printStuff($variable, $option) {
+    if ($option == 1) {
+        $variableName = "Start Position";
+    }
+    else if ($option == 2) {
+        $variableName = "End Position";
+    }
+    else if ($option == 3) {
+        $variableName = "Temp Year";
+    }
+    else if ($option == 4) {
+        $variableName = "Temp Month";
+    }
+    else if ($option == 5) {
+        $variableName = "Temp Day";
+    }
+
     echo "<br>" . $variableName . " - " . $variable . "</br>";
+}
+
+function placeString($output, $startPosition) {
+    echo "<br>";
+    for ($i = 0; $i < 10; $i++) {
+        echo $output[$startPosition + $i];
+    }
+    echo "</br>";
 }
 
 // This function will parse the data provided by the Google Finance's option json
@@ -8,19 +32,24 @@ function parseOption($output) {
     $startPosition = 0;
     $endPosition = 0;
     $nextSection = 0;
+
     getExpiry($output, $startPosition, $endPosition, 1);
-    //$symbol = getField($output, $parsePosition, $endQutoe, "symbol");
-    if (strpos($output, "expirations", $startPosition) != NULL) {
-        //do {
-        $startPosition = strpos($output, "expirations");
-        $nextSection = strpos($output, "puts");
-for ($i = 0; $i < 12; $i++) {
-}
-        getExpiry($output, $startPosition, $endPosition, 2);
-        //echo $startPosition;
-        //getExpiry($output, $startPosition, $endPosition, 2);
-        //} while ($startPosition <= $nextSection);
+
+
+    if (strpos($output, "expirations", $startPosition != NULL)) {
+//        $startPosition = strpos($output, "\"expirations", $startPosition);
+        //printStuff($startPosition, 1);
+//        getExpiry($output, $startPosition, $endPosition, 2);
+//        getExpiry($output, $startPosition, $endPosition, 2);
     }
+//     if (strpos($output, "expirations", $startPosition) != NULL) {
+//         $startPosition = strpos($output, "expirations");
+//         $nextSection = strpos($output, "puts");
+// printStuff($startPosition, "Start Position");
+//         getExpiry($output, $startPosition, $endPosition, 2);
+// printStuff($startPosition, "Start Position");
+//         getExpiry($output, $startPosition, $endPosition, 2);
+//     }
 }
 
 function getExpiry($input, &$startPosition, &$endPosition, $firstTime) {
@@ -29,50 +58,49 @@ function getExpiry($input, &$startPosition, &$endPosition, $firstTime) {
         $startPosition = strpos($input, "\"");
     }
     else {
-
-        $startPosition = strpos($input, "\"", $startPosition);
-//        printStuff($startPosition, "Start Position");
+        if ($startPosition <= strpos($input, "expirations")) {
+            $startPosition = strpos($input, "\"", $startPosition);
+        }
+        else {
+            $startPosition = strpos($input, "\"", $startPosition);
+            $startPosition--;
+            printStuff($startPosition, 1);
+            printStuff($endPosition, 2);
+        }
     }
 
     $startPosition++;
-    printStuff($startPosition, "Start Position");
     $endPosition = strpos($input, "\"", $startPosition);
-//    printStuff($endPosition, "End Position");
+
     $tempyear = parseDate($input, $startPosition, $endPosition, ",");
     $tempmonth = parseDate($input, $startPosition, $endPosition, ",");
     $tempdate = parseDate($input, $startPosition, $endPosition, "}");
-if ($firstTime == 2) {
-    printStuff($tempyear, "Temp Year");
-    printStuff($tempmonth, "Temp Month");
-    printStuff($tempdate, "Temp Date");
-}
-//     // Each function call will get the year, month, and date in that order.
-//     $stringReturn parseDate($input, $startPosition, $endPosition, ",");
-// echo $stringReturn;
-//     $stringReturn = parseDate($input, $startPosition, $endPosition, ",");
-// echo $stringReturn;
-//     $stringReturn = parseDate($input, $startPosition, $endPosition, "}");
-// echo $stringReturn;
+
+//if ($firstTime == 2) {
+    printStuff($tempyear, 3);
+    printStuff($tempmonth, 4);
+    printStuff($tempdate, 5);
+//}
+
 }
 // This function parses through the fields and the data for the date
 function parseDate($input, &$startPosition, &$endPosition, $endChar) {
+    placeString($input, $startPosition);
     // Block moves to get to the label
     $startPosition = $endPosition + 1;
     $startPosition = strpos($input, "\"", $startPosition);
     $startPosition++;
     $endPosition = strpos($input, "\"", $startPosition);
-for ($i = 0; $i < 10; $i++) {
-    echo $input[$startPosition + $i];
-}
+
+echo "This is stuff";
+placeString($input, $startPosition);
     //Block moves to get the value
     $startPosition = $endPosition + 1;
     $startPosition = strpos($input, ":", $startPosition);
-    printStuff($startPosition, "Start Position in Parse Date");
     $startPosition++;
     $endPosition = strpos($input, $endChar, $startPosition);
-
     $stringReturn = substr($input, $startPosition, $endPosition - $startPosition);
-    //$startPosition = $endPosition + 1;
+
     return $stringReturn;
 }
 
