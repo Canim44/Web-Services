@@ -37,8 +37,9 @@ function parseOption($output) {
 
 
     if (strpos($output, "expirations", $startPosition != NULL)) {
-//        $startPosition = strpos($output, "\"expirations", $startPosition);
-        //printStuff($startPosition, 1);
+        $startPosition = strpos($output, "\"expirations", $startPosition);
+        printStuff($startPosition, 1);
+        getExpiry($output, $startPosition, $endPosition, 2);
 //        getExpiry($output, $startPosition, $endPosition, 2);
 //        getExpiry($output, $startPosition, $endPosition, 2);
     }
@@ -59,14 +60,12 @@ function getExpiry($input, &$startPosition, &$endPosition, $firstTime) {
     }
     else {
         if ($startPosition <= strpos($input, "expirations")) {
-            $startPosition = strpos($input, "\"", $startPosition);
+            //$startPosition = strpos($input, "\"", $startPosition);
         }
-        else {
-            $startPosition = strpos($input, "\"", $startPosition);
-            $startPosition--;
-            printStuff($startPosition, 1);
-            printStuff($endPosition, 2);
-        }
+        // else {
+        //     $startPosition = strpos($input, "\"", $startPosition);
+        //     $startPosition--;
+        // }
     }
 
     $startPosition++;
@@ -76,11 +75,11 @@ function getExpiry($input, &$startPosition, &$endPosition, $firstTime) {
     $tempmonth = parseDate($input, $startPosition, $endPosition, ",");
     $tempdate = parseDate($input, $startPosition, $endPosition, "}");
 
-//if ($firstTime == 2) {
+if ($firstTime == 2) {
     printStuff($tempyear, 3);
     printStuff($tempmonth, 4);
     printStuff($tempdate, 5);
-//}
+}
 
 }
 // This function parses through the fields and the data for the date
@@ -92,7 +91,6 @@ function parseDate($input, &$startPosition, &$endPosition, $endChar) {
     $startPosition++;
     $endPosition = strpos($input, "\"", $startPosition);
 
-echo "This is stuff";
 placeString($input, $startPosition);
     //Block moves to get the value
     $startPosition = $endPosition + 1;
