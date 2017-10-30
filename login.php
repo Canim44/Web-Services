@@ -38,7 +38,6 @@ function userLogin($user, $pass, $remember) {
 	}
 }
 
-
 // This procedure takes the results from the login query and validates if a login was successful
 function validateLogin($results) {
 	// Query results if the login was successful

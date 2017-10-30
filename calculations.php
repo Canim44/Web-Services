@@ -15,6 +15,6 @@ function balanceSufficient($cost) {
 }
 
 function putStrikePrice($optionArray) {
-    
+
 }
 ?>

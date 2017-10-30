@@ -12,14 +12,8 @@
     $user = $_GET["user"];
     $loginKey = $_GET["loginkey"];
 
-    $googleSearch = " - produced no matches.";
-    // Querying Google Finance to see if the symbol or company name is valid
-    $url = "http://finance.google.com/finance?q=" . $symbol;
-    curl_setopt($ch, CURLOPT_URL, $url);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 
-    $output = curl_exec($ch);
-
+    // Query Google Finance to get the latest up to date infromation
     $url = "http://finance.google.com/finance?q=" . $symbol . "&output=json";
 
     curl_setopt($ch, CURLOPT_URL, $url);
@@ -27,34 +21,41 @@
 
     $output = curl_exec($ch);
 
-    // Error checking to see if there were no matches to the search
-	if (strpos($output, " - produced no matches.")) {
-		echo "Search failed";
-	}
-    else {
-        $stockArray = parseStock($output);
-    }
+    // Parse the JSON file to get the price of the stock
+    $stockArray = parseStock($output);
 
+    // Calculate the cost of the purchase at current market prices
     $cost = calculateCost($quantity, $stockArray);
 
+    // Call to execute the purchase of the stock
     $success = executePurchase($cost, $stockArray, $user, $loginKey);
-
 
     function executePurchase($cost, $stockArray, $user, $loginKey) {
         $link = serverConnection();
-
+        $userID = 0;
+        // Query to retrieve the ID value from the server
         $getIDQuery = "SELECT id FROM users WHERE ";
+
+        // If the app passed in the username, use it to get the ID
         if ($user != NULL) {
             $getIDQuery = $getIDQuery . " username = \"" . $user . "\"";
-            echo $getIDQuery;
             $userID = runQuery($link, $getIDQuery);
-            echo $userID;
+            $userID = parseID($userID);
         }
+        // If the app passed in the loginKey, use it to get the ID
         else if ($loginKey != NULL) {
             $getIDQuery = $getIDQuery . " loginkey = \"" . $loginKey . "\"";
-            echo $getIDQuery;
+            $userID = runQuery($link, $getIDQuery);
+            $userID = parseID($userID);
         }
 
-
+                
+    }
+    // Function to parse the user ID out of the returned value from the SQL server
+    function parseID($userID) {
+        $startPosition = 8;
+        $endPosition = strpos($userID, "\"", $startPosition);
+        $ID = substr($userID, $startPosition, $endPosition - $startPosition);
+        return $ID;
     }
 ?>
