@@ -29,6 +29,7 @@ function placeString($output, $startPosition) {
 
 // This function will parse the data provided by the Google Finance's option json
 function parseOption($output) {
+    // Initializing the parse counters
     $startPosition = 0;
     $endPosition = 0;
     $nextSection = 0;
@@ -42,6 +43,13 @@ function parseOption($output) {
              getExpiry($output, $startPosition, $endPosition, 2);
              $tempInt = strpos($output, "]", $endPosition) - $endPosition;
         } while ($tempInt >= 2);
+    }
+    if (strpos($output, "\"calls\"") > strpos($output, "\"puts\"")) {
+        $startposition = strpos($output, "\"calls");
+
+    }
+    else {
+        $startposition = strpos($output, "\"puts");
     }
 
 }
@@ -64,11 +72,6 @@ function getExpiry($input, &$startPosition, &$endPosition, $firstTime) {
     $tempyear = parseDate($input, $startPosition, $endPosition, ",");
     $tempmonth = parseDate($input, $startPosition, $endPosition, ",");
     $tempdate = parseDate($input, $startPosition, $endPosition, "}");
-if ($firstTime == 2) {
-printStuff($tempyear, 3);
-printStuff($tempmonth, 4);
-printStuff($tempdate, 5);
-}
 
 }
 // This function parses through the fields and the data for the date
@@ -96,16 +99,30 @@ function parseStock($output) {
     $parsePosition = 0;
     $endPosition = 0;
 
+    // Initializing array to hold all the data
+    $stocks= array("", "", "", "", "", "", "", "", "");
+    // Meaning of each index
+    // 0 = SYMBOL
+    // 1 = EXCHANGE
+    // 2 = COMPANY NAME
+    // 3 = CHANGE IN PRICE
+    // 4 = PRICE
+    // 5 = CHANGE PERCENT
+    // 6 = OPENING PRICE
+    // 7 = INTRADAY HIGH
+    // 8 = INTRADAY LOW
     // Placing the relevant data into variables
-    $symbol = getField($output, $parsePosition, $endQutoe, "symbol");
-    $exchange = getField($output, $parsePosition, $endQutoe, "exchange");
-    $name = getField($output, $parsePosition, $endQutoe, "name");
-    $change = getField($output, $parsePosition, $endPosition, "c");
-    $price = getField($output, $parsePosition, $endPosition, "l");
-    $changePercent = getField($output, $parsePosition, $endPosition, "cp");
-    $openPrice = getField($output, $parsePosition, $endPosition, "op");
-    $high = getField($output, $parsePosition, $endPosition, "hi");
-    $low = getField($output, $parsePosition, $endPosition, "lo");
+    $stocks[0] = getField($output, $parsePosition, $endPosition, "symbol");
+    $stocks[1] = getField($output, $parsePosition, $endPosition, "exchange");
+    $stocks[2] = getField($output, $parsePosition, $endPosition, "name");
+    $stocks[3] = getField($output, $parsePosition, $endPosition, "c");
+    $stocks[4] = getField($output, $parsePosition, $endPosition, "l");
+    $stocks[5] = getField($output, $parsePosition, $endPosition, "cp");
+    $stocks[6] = getField($output, $parsePosition, $endPosition, "op");
+    $stocks[7] = getField($output, $parsePosition, $endPosition, "hi");
+    $stocks[8] = getField($output, $parsePosition, $endPosition, "lo");
+
+    return $stocks;
 }
 
 // This procedure takes the JSON input and parses it based on the tokens provided in the parseStock() and parseOption() functions
