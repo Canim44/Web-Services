@@ -1,6 +1,7 @@
 <?php
+
     include_once("parseJSON.php");
-    include_one("calculations.php");
+    include_once("calculations.php");
 
     // Initialize client URL variable
     $ch = curl_init();
@@ -8,6 +9,8 @@
     // Variables passed in from parameters
     $symbol = $_GET["symbol"];
     $quantity = $_GET["quantity"];
+    $user = $_GET["user"];
+    $loginKey = $_GET["loginkey"];
 
     $googleSearch = " - produced no matches.";
     // Querying Google Finance to see if the symbol or company name is valid
@@ -30,25 +33,28 @@
 	}
     else {
         $stockArray = parseStock($output);
-        for ($i = 0; $i < 9; $i++) {
-        	echo "<br>" . $stockArray[$i] . "</br>";
+    }
+
+    $cost = calculateCost($quantity, $stockArray);
+
+    $success = executePurchase($cost, $stockArray, $user, $loginKey);
+
+
+    function executePurchase($cost, $stockArray, $user, $loginKey) {
+        $link = serverConnection();
+
+        $getIDQuery = "SELECT id FROM users WHERE ";
+        if ($user != NULL) {
+            $getIDQuery = $getIDQuery . " username = \"" . $user . "\"";
+            echo $getIDQuery;
+            $userID = runQuery($link, $getIDQuery);
+            echo $userID;
         }
+        else if ($loginKey != NULL) {
+            $getIDQuery = $getIDQuery . " loginkey = \"" . $loginKey . "\"";
+            echo $getIDQuery;
+        }
+
+
     }
-
-    $cost = calculateCost($quantity);
-
-    function executePurchase($cost, $stockArray) {
-
-    }
-
-    // Meaning of each index
-    // 0 = SYMBOL
-    // 1 = EXCHANGE
-    // 2 = COMPANY NAME
-    // 3 = CHANGE IN PRICE
-    // 4 = PRICE
-    // 5 = CHANGE PERCENT
-    // 6 = OPENING PRICE
-    // 7 = INTRADAY HIGH
-    // 8 = INTRADAY LOW
 ?>
