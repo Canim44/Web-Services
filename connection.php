@@ -11,21 +11,41 @@
     $link = mysqli_connect($servername, $serveruser, $serverpass) or die("Error: Connection to Server failed");
     mysqli_select_db($link, $database) or die("Error: Database");
     return $link;
-  }
+    }
 
-  // This procedure standardizes the way queries are run with the results formatted in json
-  // $link and $query are set up in the caller function
-  function runQuery(&$link, $query) {
+    // This procedure standardizes the way queries are run with the results formatted in json
+    // $link and $query are set up in the caller function
+    function runQuery(&$link, $query) {
+        // Creating query object
+        $rs = mysqli_query($link, $query);
 
-  	// Creating query object
-  	$rs = mysqli_query($link, $query);
+        // Fetch the results and place into an object
+        while($obj = mysqli_fetch_object($rs)) {
+            $arr[] = $obj;
+        }
+        // Encode the results into a json type object
+        $results = json_encode($arr);
+        return $results;
+    }
 
-  	// Fetch the results and place into an object
-  	while($obj = mysqli_fetch_object($rs)) {
-  		$arr[] = $obj;
-  	}
-  	// Encode the results into a json type object
-  	$results = json_encode($arr);
-  return $results;
-  }
+    // This procedure will parse the JSON output from the runQuery() function
+    // $fieldName will need to be supplied in order to find the field immediately
+    function parseField($result, $fieldName) {
+        // Move the start position to the field
+        $startPosition = strpos($result, $fieldName);
+
+        // Advance the start position beyond the last quote
+        $startPosition = strpos($result, ":");
+
+
+        // Advance the start position to the quotation surrounding the value for the field
+        $startPosition = strPos($result, "\"", $startPosition);
+        // Advance the end position to the next occurence of a quote at the end
+        // of the field and then move it back one position to ignore the quote
+        $endPosition = strpos($result, "\"", $startPosition + 1) - 1;
+
+        // Copying the field into a return variable $fieldValue
+        $fieldValue = substr($result, $startPosition + 1, $endPosition - $startPosition);
+        return $fieldValue;
+    }
 ?>

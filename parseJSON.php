@@ -1,4 +1,5 @@
 <?php
+include_once("connection.php");
 function printStuff($variable, $option) {
     if ($option == 1) {
         $variableName = "Start Position";
@@ -34,16 +35,27 @@ function parseOption($output) {
     $endPosition = 0;
     $nextSection = 0;
 
+    // Get the expiration date
     getExpiry($output, $startPosition, $endPosition, 1);
 
+    // If multiple expiration dates exist, run this block
     if (strpos($output, "expirations", $startPosition != NULL)) {
+        // Advance the start position of the search to "expirations"
         $startPosition = strpos($output, "\"expirations", $startPosition);
+
+        // Initializing $tempInt with a dummy variable
         $tempInt = 10;
+
+        // Run this loop while the end square bracket's location from the
+        // start position is greater than 1, which is where it would be located
+        // if the square bracket were to appear.
         do {
              getExpiry($output, $startPosition, $endPosition, 2);
              $tempInt = strpos($output, "]", $endPosition) - $endPosition;
         } while ($tempInt >= 2);
     }
+
+    // Block will determine if the next section in the JSON is for puts or for calls.
     if (strpos($output, "\"calls\"") > strpos($output, "\"puts\"")) {
         $startposition = strpos($output, "\"calls");
 
@@ -74,6 +86,10 @@ function getExpiry($input, &$startPosition, &$endPosition, $firstTime) {
     $tempdate = parseDate($input, $startPosition, $endPosition, "}");
 
 }
+/* ----------------------------------------------------------------------------------------
+    Due to the JSON file returned by Google Finance, a traditional JSON parse cannot be used.
+    These procedures will parse the data in a specific manner.
+   ---------------------------------------------------------------------------------------- */
 // This function parses through the fields and the data for the date
 function parseDate($input, &$startPosition, &$endPosition, $endChar) {
     // Block moves to get to the label
@@ -94,11 +110,6 @@ function parseDate($input, &$startPosition, &$endPosition, $endChar) {
 
 // This function will parse the data provided by Google Finance's stock JSON
 function parseStock($output) {
-    // Initializing the variables to hold the index of the parse and
-    // the position of the end quote of each token and field
-    $parsePosition = 0;
-    $endPosition = 0;
-
     // Initializing array to hold all the data
     $stocks= array("", "", "", "", "", "", "", "", "");
     // Meaning of each index
@@ -112,40 +123,15 @@ function parseStock($output) {
     // 7 = INTRADAY HIGH
     // 8 = INTRADAY LOW
     // Placing the relevant data into variables
-    $stocks[0] = getField($output, $parsePosition, $endPosition, "symbol");
-    $stocks[1] = getField($output, $parsePosition, $endPosition, "exchange");
-    $stocks[2] = getField($output, $parsePosition, $endPosition, "name");
-    $stocks[3] = getField($output, $parsePosition, $endPosition, "c");
-    $stocks[4] = getField($output, $parsePosition, $endPosition, "l");
-    $stocks[5] = getField($output, $parsePosition, $endPosition, "cp");
-    $stocks[6] = getField($output, $parsePosition, $endPosition, "op");
-    $stocks[7] = getField($output, $parsePosition, $endPosition, "hi");
-    $stocks[8] = getField($output, $parsePosition, $endPosition, "lo");
+    $stocks[0] = parseField($output, "symbol");
+    $stocks[1] = parseField($output, "exchange");
+    $stocks[2] = parseField($output, "name");
+    $stocks[3] = parseField($output, "c");
+    $stocks[4] = parseField($output, "l");
+    $stocks[5] = parseField($output, "cp");
+    $stocks[6] = parseField($output, "op");
+    $stocks[7] = parseField($output, "hi");
+    $stocks[8] = parseField($output, "lo");
 
     return $stocks;
 }
-
-// This procedure takes the JSON input and parses it based on the tokens provided in the parseStock() and parseOption() functions
-function getField($input, &$startPosition, &$endPosition, $token) {
-    do {
-        if ($startPosition == 0) {
-            $startPosition = strpos($input, "\"");
-        }
-        else {
-            $startPosition = strpos($input, "\"", $startPosition);
-        }
-        $startPosition++;
-        $endPosition = strpos($input, "\"", $startPosition);
-        $stringReturn = substr($input, $startPosition, $endPosition - $startPosition);
-    } while ($stringReturn != $token);
-
-    $startPosition = $endPosition + 1;
-
-    $startPosition = strpos($input, "\"", $startPosition);
-    $startPosition++;
-    $endPosition = strpos($input, "\"", $startPosition);
-    $stringReturn = substr($input, $startPosition, $endPosition - $startPosition);
-
-    return $stringReturn;
-}
-?>
