@@ -1,5 +1,7 @@
 <?php
 include_once("connection.php");
+
+// Function to output data for debugging
 function printStuff($variable, $option) {
     if ($option == 1) {
         $variableName = "Start Position";
@@ -20,6 +22,7 @@ function printStuff($variable, $option) {
     echo "<br>" . $variableName . " - " . $variable . "</br>";
 }
 
+// Function to output data for debugging
 function placeString($output, $startPosition) {
     echo "<br>";
     for ($i = 0; $i < 10; $i++) {
@@ -112,26 +115,29 @@ function parseDate($input, &$startPosition, &$endPosition, $endChar) {
 function parseStock($output) {
     // Initializing array to hold all the data
     $stocks= array("", "", "", "", "", "", "", "", "");
+    $startPosition = 0;
     // Meaning of each index
     // 0 = SYMBOL
     // 1 = EXCHANGE
-    // 2 = COMPANY NAME
-    // 3 = CHANGE IN PRICE
-    // 4 = PRICE
-    // 5 = CHANGE PERCENT
-    // 6 = OPENING PRICE
-    // 7 = INTRADAY HIGH
-    // 8 = INTRADAY LOW
+    // 2 = STOCK ID
+    // 3 = COMPANY NAME
+    // 4 = CHANGE IN PRICE
+    // 5 = PRICE
+    // 6 = CHANGE PERCENT
+    // 7 = OPENING PRICE
+    // 8 = INTRADAY HIGH
+    // 9 = INTRADAY LOW
     // Placing the relevant data into variables
-    $stocks[0] = parseField($output, "symbol");
-    $stocks[1] = parseField($output, "exchange");
-    $stocks[2] = parseField($output, "name");
-    $stocks[3] = parseField($output, "c");
-    $stocks[4] = parseField($output, "l");
-    $stocks[5] = parseField($output, "cp");
-    $stocks[6] = parseField($output, "op");
-    $stocks[7] = parseField($output, "hi");
-    $stocks[8] = parseField($output, "lo");
+    $stocks[0] = parseField($output, "\"symbol\"", $startPosition);
+    $stocks[1] = parseField($output, "\"exchange\"", $startPosition);
+    $stocks[2] = parseField($output, "\"id\"", $startPosition);
+    $stocks[3] = parseField($output, "\"name\"", $startPosition);
+    $stocks[4] = parseField($output, "\"c\"", $startPosition);
+    $stocks[5] = parseField($output, "\"l\"", $startPosition);
+    $stocks[6] = parseField($output, "\"cp\"", $startPosition);
+    $stocks[7] = parseField($output, "\"op\"", $startPosition);
+    $stocks[8] = parseField($output, "\"hi\"", $startPosition);
+    $stocks[9] = parseField($output, "\"lo\"", $startPosition);
 
     return $stocks;
 }

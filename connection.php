@@ -30,13 +30,12 @@
 
     // This procedure will parse the JSON output from the runQuery() function
     // $fieldName will need to be supplied in order to find the field immediately
-    function parseField($result, $fieldName) {
+    function parseField($result, $fieldName, &$startPosition) {
         // Move the start position to the field
         $startPosition = strpos($result, $fieldName);
-
+        $startPosition++;
         // Advance the start position beyond the last quote
-        $startPosition = strpos($result, ":");
-
+        $startPosition = strpos($result, ":", $startPosition);
 
         // Advance the start position to the quotation surrounding the value for the field
         $startPosition = strPos($result, "\"", $startPosition);
@@ -47,5 +46,18 @@
         // Copying the field into a return variable $fieldValue
         $fieldValue = substr($result, $startPosition + 1, $endPosition - $startPosition);
         return $fieldValue;
+    }
+
+    // This procedure standardizes the way queries are run with the results formatted in json
+    // $link and $query are set up in the caller function
+    function runBuySellQuery(&$link, $query) {
+        if (mysqli_query($link, $query)) {
+            return 1;
+        }
+        else {
+            echo mysqli_error($link);
+            return 0;
+        }
+
     }
 ?>

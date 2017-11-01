@@ -12,8 +12,7 @@
     $user = $_GET["user"];
     $loginKey = $_GET["loginkey"];
 
-
-    // Query Google Finance to get the latest up to date infromation
+    // Ping Google Finance to get the latest up to date infromation
     $url = "http://finance.google.com/finance?q=" . $symbol . "&output=json";
 
     curl_setopt($ch, CURLOPT_URL, $url);
@@ -28,6 +27,5 @@
     $cost = calculateStockCost($quantity, $stockArray);
 
     // Call to execute the purchase of the stock
-    $success = executePurchase($cost, $stockArray, $user, $loginKey, 1);
-
+    $success = executePurchase($cost, $stockArray, $user, $loginKey, $quantity, 1);
 ?>
