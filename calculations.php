@@ -29,42 +29,26 @@ include_once("connection.php");
             return 0;
         }
     }
+    function getBalance(&$link, $user, $loginKey) {
+        $balanceQuery = "SELECT balance FROM portfolio where ID = " . $userID;
 
-    function executePurchase($cost, $stockArray, $user, $loginKey, $quantity, $stockOption) {
-        $link = serverConnection();
-        $userID = 0;
-        // Query to retrieve the ID value from the server
-        $getIDQuery = "SELECT id FROM users WHERE ";
-        $startPosition = 0;
+        // Executing the query
+        $result = runQuery($link, $balanceQuery);
 
-        // If the app passed in the username, use it to get the ID
+        // Parsing the data
+        $balance = parseField($result, "balance", $startPosition);
+    }
+    // This function will adjust the balance of the user's potfolio if the purchase or
+    // divestment was successful
+    function adjustBalance($cost, $user, $loginKey) {
+
+        $adjustmentQuery = "UPDATE portfolio SET balance = " .
         if ($user != NULL) {
-            $getIDQuery = $getIDQuery . " username = \"" . $user . "\"";
-            $userID = runQuery($link, $getIDQuery);
-            $userID = parseField($userID, "id", $startPosition);
-        }
-        // If the app passed in the loginKey, use it to get the ID
-        else if ($loginKey != NULL) {
-            $getIDQuery = $getIDQuery . " loginkey = \"" . $loginKey . "\"";
-            $userID = runQuery($link, $getIDQuery);
-            $userID = parseField($userID, "id", $startPosition);
-        }
 
-        $balance = balanceSufficient($link, $cost, $userID);
-
-        if ($balance == 1) {
-            if ($stockOption == 1) {
-                $date =
-                $purchaseQuery = "INSERT INTO stocks (id, stockID, symbol, price, quantity, dateBought) VALUES ("
-                    . $userID . ", ". $stockArray[2] . ", \"" . $stockArray[0] . "\", " . $stockArray[5] . ", ". $quantity . ", CURRENT_TIMESTAMP())";
-                    echo $purchaseQuery;
-                $result = runBuySellQuery($link, $purchaseQuery);
-                return $result;
-            }
         }
         else {
-            echo "Insufficient funds";
-            return 0;
+
         }
     }
+
 ?>

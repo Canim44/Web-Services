@@ -60,4 +60,22 @@
         }
 
     }
+
+    function getUserID($user, $loginKey) {
+        $link = serverConnection();
+        $startPosition = 0;
+        $getIDQuery = "SELECT id FROM users WHERE ";
+
+        if ($user != NULL) {
+            $getIDQuery = $getIDQuery . " username = \"" . $user . "\"";
+        }
+        else {
+            $getIDQuery = $getIDQuery . " loginkey = \"" . $loginKey . "\"";
+        }
+
+        $userID = runQuery($link, $getIDQuery);
+        $userID = parseField(($userID, "id", $startPosition);
+
+        return $userID;
+    }
 ?>

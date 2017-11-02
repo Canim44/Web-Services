@@ -41,10 +41,5 @@ include_once("parseJSON.php");
 			// 	echo "<br>" . $stockarray[$i] . "</br>";
 			// }
 		}
-		else if ($type != 1)
-		{
-			parseOption($output);
-		}
 	}
-
 ?>

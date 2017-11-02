@@ -1,0 +1,25 @@
+calculations.php {
+    calculateStockCost($quantity, $stockArray)
+    balanceSufficient(&$link, $cost, $userID)
+    getBalance(&$link, &user, $loginKey)
+    adjustBalance($cost, $user, $loginKey)
+}
+
+connection.php {
+    serverConnection()
+    runQuery(&$link, $query)
+    parseField($result, $fieldName, &$startPosition)
+    runBuySellQuery(&$link, $query)
+    getUserID(user, $loginKey)
+}
+
+parseJSON.php {
+    getExpiry($output, &$startPosition, &$endPosition, $firstTime)
+    parseOption($output);
+    parseDate($input, &$startPosition, &$endPosition, $endChar)
+    parseStock($output)
+}
+
+portfolio.php {
+    executePurchase($cost, $stockArray, $user, $loginKey, $quantity, $stockOption)
+}

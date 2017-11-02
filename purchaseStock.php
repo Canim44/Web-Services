@@ -2,6 +2,7 @@
 
     include_once("parseJSON.php");
     include_once("calculations.php");
+    include_once("portfolio.php");
 
     // Initialize client URL variable
     $ch = curl_init();
@@ -12,6 +13,7 @@
     $user = $_GET["user"];
     $loginKey = $_GET["loginkey"];
 
+    $userID = getUserID($user, $loginKey);
     // Ping Google Finance to get the latest up to date infromation
     $url = "http://finance.google.com/finance?q=" . $symbol . "&output=json";
 
@@ -28,4 +30,8 @@
 
     // Call to execute the purchase of the stock
     $success = executePurchase($cost, $stockArray, $user, $loginKey, $quantity, 1);
+
+    if ($success == 1) {
+        adjustBalance($cost, $user, $loginKey);
+    }
 ?>
