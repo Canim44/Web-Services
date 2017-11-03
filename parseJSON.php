@@ -45,7 +45,7 @@ echo $output;
     //         $i++;
     // } while ($i <= 2);
 }
-function getOptionData($input, $start, &$putsArray) {
+function getOptionData($input, $startPosition, &$putsArray) {
     // Pipe delimited string will be returned in the following form:
     // cid  |  price    |   change  | changePercent     |    fill   |   strike
     $startPosition = strpos($input, "\"cid\"", $startPosition);
