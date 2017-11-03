@@ -32,7 +32,7 @@
     // $fieldName will need to be supplied in order to find the field immediately
     function parseField($result, $fieldName, $startPosition) {
         // Move the start position to the field
-        $startPosition = strpos($result, $fieldName);
+        $startPosition = strpos($result, $fieldName, $startPosition);
         $startPosition++;
         // Advance the start position beyond the last quote
         $startPosition = strpos($result, ":", $startPosition);
