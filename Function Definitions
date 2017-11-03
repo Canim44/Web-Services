@@ -1,15 +1,15 @@
 calculations.php {
     calculateStockCost($quantity, $stockArray)
     balanceSufficient(&$link, $cost, $userID)
-    getBalance(&$link, &user, $loginKey)
-    adjustBalance($cost, $user, $loginKey)
+    getBalance(&$link, $userID)
+    adjustBalance($cost, $userID)
 }
 
 connection.php {
     serverConnection()
     runQuery(&$link, $query)
     parseField($result, $fieldName, &$startPosition)
-    runBuySellQuery(&$link, $query)
+    runBuySellQuery($query)
     getUserID(user, $loginKey)
 }
 

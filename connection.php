@@ -50,7 +50,9 @@
 
     // This procedure standardizes the way queries are run with the results formatted in json
     // $link and $query are set up in the caller function
-    function runBuySellQuery(&$link, $query) {
+    function runBuySellQuery($query) {
+        $link = serverConnection();
+
         if (mysqli_query($link, $query)) {
             return 1;
         }
@@ -58,13 +60,13 @@
             echo mysqli_error($link);
             return 0;
         }
-
     }
 
     function getUserID($user, $loginKey) {
         $link = serverConnection();
         $startPosition = 0;
         $getIDQuery = "SELECT id FROM users WHERE ";
+        $userID = 0;
 
         if ($user != NULL) {
             $getIDQuery = $getIDQuery . " username = \"" . $user . "\"";
@@ -74,7 +76,8 @@
         }
 
         $userID = runQuery($link, $getIDQuery);
-        $userID = parseField(($userID, "id", $startPosition);
+
+        $userID = parseField($userID, "id", $startPosition);
 
         return $userID;
     }
