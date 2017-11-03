@@ -30,7 +30,7 @@
 
     // This procedure will parse the JSON output from the runQuery() function
     // $fieldName will need to be supplied in order to find the field immediately
-    function parseField($result, $fieldName, &$startPosition) {
+    function parseField($result, $fieldName, $startPosition) {
         // Move the start position to the field
         $startPosition = strpos($result, $fieldName);
         $startPosition++;

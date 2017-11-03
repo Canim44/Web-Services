@@ -68,13 +68,13 @@ printStuff($startPosition, 1);
     }
 
     $startPosition = strpos($input, "\"a\"", $startPosition);
-    echo $startPosition."\n";
+    echo $startPosition."<br>";
     $ask = parseField ($input, "\"a\"", $startPosition);
 
     $fill = round(($bid + $ask) / 2, 2);
 
     $startPosition = strpos($input, "\"strike\"", $startPosition);
-    echo $startPosition."\n";
+    echo $startPosition."<br>";
     $strike = parseField($input, "\"strike\"", $startPosition);
 
     $parsed = $cid . "|" . $price . "|" . $change . "|" . $changePercent . "|" . $fill . "|" . $strike;
