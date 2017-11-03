@@ -48,20 +48,20 @@ echo $output;
 function getOptionData($input, $start, &$putsArray) {
     // Pipe delimited string will be returned in the following form:
     // cid  |  price    |   change  | changePercent     |    fill   |   strike
-    $startPosition = strpos($input, "\"cid\"", $start);
-    $cid = parseField($input, "\"cid\"", $start);
+    $startPosition = strpos($input, "\"cid\"", $startPosition);
+    $cid = parseField($input, "\"cid\"", $startPosition);
 printStuff($startPosition, 1);
-    $startPosition = strpos($input, "\"p\"", $start);
-    $price = parseField($input, "\"p\"", $start);
+    $startPosition = strpos($input, "\"p\"", $startPosition);
+    $price = parseField($input, "\"p\"", $startPosition);
 
-    $startPosition = strpos($input, "\"c\"", $start);
-    $change = parseField($input, "\"c\"", $start);
+    $startPosition = strpos($input, "\"c\"", $startPosition);
+    $change = parseField($input, "\"c\"", $startPosition);
 
-    $startPosition = strpos($input, "\"cp\"", $start);
-    $changePercent = parseField($input, "\"cp\"", $start);
+    $startPosition = strpos($input, "\"cp\"", $startPosition);
+    $changePercent = parseField($input, "\"cp\"", $startPosition);
 
-    $startPosition = strpos($input, "\"b\"", $start);
-    $bid = parseField($input, "\"b\"", $start);
+    $startPosition = strpos($input, "\"b\"", $startPosition);
+    $bid = parseField($input, "\"b\"", $startPosition);
 
     if ($bid == "-") {
         $bid = 0;
@@ -80,7 +80,7 @@ printStuff($startPosition, 1);
     $parsed = $cid . "|" . $price . "|" . $change . "|" . $changePercent . "|" . $fill . "|" . $strike;
     echo $parsed. "<br></br>";
 printStuff($startPosition, 1);
-    array_push($putsArray, $parsed);
+    //array_push($putsArray, $parsed);
     return $startPosition;
 }
 
