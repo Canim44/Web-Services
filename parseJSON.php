@@ -35,9 +35,10 @@ function parseOption($output, $stockArray) {
 echo $output;
     $putsArray = array();
     $startPosition = strpos($output, "\"puts\"", $startPosition);
-    while ($startPosition < strpos($output, "\"calls\"", $startPosition)) {
+    //while ($startPosition < strpos($output, "\"calls\"", $startPosition)) {
         $startPosition = getOptionData($output, $startPosition, $putsArray);
-    }
+        $startPosition = getOptionData($output, $startPosition, $putsArray);
+    //}
 
     // do {
     //         $startPosition = getOptionData($output, $startPosition, $putsArray);
