@@ -38,7 +38,6 @@ function executeSale($cost, $stockArray, $userID, $newQuantity, $stockOption, $b
     $link = serverConnection();
     if ($stockOption == 1) {
         $saleQuery = "UPDATE stocks SET dateSold = CURRENT_TIMESTAMP(), quantityRemaining = " . $newQuantity . " WHERE stockID = " . $stockArray[2] . " AND dateBought = \"" . $buyDate . "\" AND id = ". $userID;
-        echo $saleQuery;
         $result = runBuySellQuery($saleQuery);
     }
     if ($result == 1) {

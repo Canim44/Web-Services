@@ -9,8 +9,9 @@ function parseOption($output) {
     $endPosition = 0;
     $nextSection = 0;
 
+    $expirations = array();
     // Get the expiration date
-    getExpiry($output, $startPosition, $endPosition, 1);
+    array_push($expirations, getExpiry($output, $startPosition, $endPosition, 1));
 
     // If multiple expiration dates exist, run this block
     if (strpos($output, "expirations", $startPosition != NULL)) {
@@ -24,15 +25,19 @@ function parseOption($output) {
         // start position is greater than 1, which is where it would be located
         // if the square bracket were to appear.
         do {
-             getExpiry($output, $startPosition, $endPosition, 2);
+             array_push($expirations, getExpiry($output, $startPosition, $endPosition, 2));
              $tempInt = strpos($output, "]", $endPosition) - $endPosition;
         } while ($tempInt >= 2);
     }
 
+    // Remove the first element, which is duplicated
+    $temp = array_shift($expirations);
+
+for ($i = 0; $i < count($expirations); $i++) {
+    echo "<br> " . $expirations[$i] . "</br>";
+}
+
     $startPosition = strpos($output, "\"puts\"", $startPosition);
-echo $startPosition;
-    $startPosition = strpos($output, "\"calls\"", $startPosition);
-echo $startPosition;
 }
 
 function getExpiry($input, &$startPosition, &$endPosition, $firstTime) {
@@ -45,7 +50,6 @@ function getExpiry($input, &$startPosition, &$endPosition, $firstTime) {
             $startPosition = $startPosition - 4;
             $startPosition = strpos($input, "\"", $startPosition);
         }
-        printStuff($startPosition, 1);
     }
     $startPosition++;
     $endPosition = strpos($input, "\"", $startPosition);
@@ -54,6 +58,8 @@ function getExpiry($input, &$startPosition, &$endPosition, $firstTime) {
     $tempmonth = parseDate($input, $startPosition, $endPosition, ",");
     $tempdate = parseDate($input, $startPosition, $endPosition, "}");
 
+    $expiryDate = "expd=" . $tempdate . "expm=" . $tempmonth. "expy=" . $tempyear;
+    return $expiryDate;
 }
 /* ----------------------------------------------------------------------------------------
     Due to the JSON file returned by Google Finance, a traditional JSON parse cannot be used.

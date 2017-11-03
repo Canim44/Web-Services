@@ -37,9 +37,9 @@ include_once("parseJSON.php");
 		if ($type == 1)
 		{
 			$stockarray = parseStock($output);
-			// for ($i = 0; $i < 10; $i++) {
-			// 	echo "<br>" . $stockarray[$i] . "</br>";
-			// }
+		}
+		else if ($type == 2) {
+			parseOption($output);
 		}
 	}
 ?>
