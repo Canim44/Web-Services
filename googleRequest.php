@@ -39,7 +39,14 @@ include_once("parseJSON.php");
 			$stockarray = parseStock($output);
 		}
 		else if ($type == 2) {
-			parseOption($output);
+			$url = "http://finance.google.com/finance?q=" . $symbol . "&output=json";
+			curl_setopt($ch, CURLOPT_URL, $url);
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+
+			$stockOutput = curl_exec($ch);
+			$stockArray = parseStock($output);
+
+			parseOption($output, $stockArray);
 		}
 	}
 ?>

@@ -3,7 +3,7 @@ include_once("connection.php");
 include_once("debug.php");
 
 // This function will parse the data provided by the Google Finance's option json
-function parseOption($output) {
+function parseOption($output, $stockArray) {
     // Initializing the parse counters
     $startPosition = 0;
     $endPosition = 0;
@@ -12,7 +12,7 @@ function parseOption($output) {
     $expirations = array();
     // Get the expiration date
     array_push($expirations, getExpiry($output, $startPosition, $endPosition, 1));
-
+    $stockName = $stockArray[3];
     // If multiple expiration dates exist, run this block
     if (strpos($output, "expirations", $startPosition != NULL)) {
         // Advance the start position of the search to "expirations"
@@ -32,12 +32,53 @@ function parseOption($output) {
 
     // Remove the first element, which is duplicated
     $temp = array_shift($expirations);
-
-for ($i = 0; $i < count($expirations); $i++) {
-    echo "<br> " . $expirations[$i] . "</br>";
-}
-
+echo $output;
+    $putsArray = array();
     $startPosition = strpos($output, "\"puts\"", $startPosition);
+    while ($startPosition < strpos($output, "\"calls\"", $startPosition)) {
+        $startPosition = getOptionData($output, $startPosition, $putsArray);
+    }
+
+    // do {
+    //         $startPosition = getOptionData($output, $startPosition, $putsArray);
+    //         $i++;
+    // } while ($i <= 2);
+}
+function getOptionData($input, &$start, &$putsArray) {
+    // Pipe delimited string will be returned in the following form:
+    // cid  |  price    |   change  | changePercent     |    fill   |   strike
+    $startPosition = strpos($input, "\"cid\"", $start);
+    $cid = parseField($input, "\"cid\"", $start);
+
+    $startPosition = strpos($input, "\"p\"", $start);
+    $price = parseField($input, "\"p\"", $start);
+
+    $startPosition = strpos($input, "\"c\"", $start);
+    $change = parseField($input, "\"c\"", $start);
+
+    $startPosition = strpos($input, "\"cp\"", $start);
+    $changePercent = parseField($input, "\"cp\"", $start);
+
+    $startPosition = strpos($input, "\"b\"", $start);
+    $bid = parseField($input, "\"b\"", $start);
+
+    if ($bid == "-") {
+        $bid = 0;
+    }
+
+    $startPosition = strpos($input, "\"a\"", $startPosition);
+    $ask = parseField ($input, "\"a\"", $startPosition);
+
+    $fill = round(($bid + $ask) / 2, 2);
+
+    $startPosition = strpos($input, "\"strike\"", $startPosition);
+    $strike = parseField($input, "\"strike\"", $startPosition);
+
+    $parsed = $cid . "|" . $price . "|" . $change . "|" . $changePercent . "|" . $fill . "|" . $strike;
+    echo $parsed. "<br></br>";
+
+    array_push($putsArray, $parsed);
+    return $startPosition;
 }
 
 function getExpiry($input, &$startPosition, &$endPosition, $firstTime) {
