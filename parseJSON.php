@@ -29,15 +29,10 @@ function parseOption($output) {
         } while ($tempInt >= 2);
     }
 
-    // Block will determine if the next section in the JSON is for puts or for calls.
-    if (strpos($output, "\"calls\"") > strpos($output, "\"puts\"")) {
-        $startposition = strpos($output, "\"calls");
-
-    }
-    else {
-        $startposition = strpos($output, "\"puts");
-    }
-
+    $startPosition = strpos($output, "\"puts\"", $startPosition);
+echo $startPosition;
+    $startPosition = strpos($output, "\"calls\"", $startPosition);
+echo $startPosition;
 }
 
 function getExpiry($input, &$startPosition, &$endPosition, $firstTime) {

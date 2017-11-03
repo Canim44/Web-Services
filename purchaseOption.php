@@ -6,5 +6,5 @@
     // Initialize client URL variable
     $ch = curl_init();
 
-    // Varaibles passed in from parameters
+    
 ?>

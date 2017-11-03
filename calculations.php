@@ -3,7 +3,9 @@ include_once("connection.php");
 
     // Function will calculate the cost of of a stock purchase
     function calculateStockCost($quantity, $stockArray) {
-        return $quantity * $stockArray[5];
+        $cost = $quantity * $stockArray[5];
+        $cost = round($cost, 2);
+        return $cost;
     }
 
     // This procedure will check to see if the balance in the user's account is sufficient
@@ -39,13 +41,18 @@ include_once("connection.php");
 
     // This function will adjust the balance of the user's potfolio if the purchase or
     // divestment was successful
-    function adjustBalance($cost, $userID) {
+    function adjustBalance($cost, $userID, $buySell) {
         $balance = getBalance($userID);
-        $newBalance = $balance - $cost;
 
+        // Option 1 is a buy
+        if ($buySell == 1) {
+            $newBalance = $balance - $cost;
+        }
+        // Option 2 is a sale
+        else if ($buySell == 2) {
+            $newBalance = $balance + $cost;
+        }
         $adjustmentQuery = "UPDATE portfolio SET balance = " . $newBalance . "WHERE id = " . $userID;
-
         $result = runBuySellQuery($adjustmentQuery);
     }
-
 ?>

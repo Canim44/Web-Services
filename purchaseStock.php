@@ -1,5 +1,4 @@
 <?php
-
     include_once("parseJSON.php");
     include_once("calculations.php");
     include_once("portfolio.php");
@@ -35,6 +34,6 @@
     $success = executePurchase($cost, $stockArray, $userID, $quantity, $stockOption);
 
     if ($success == 1) {
-        adjustBalance($cost, $userID);
+        adjustBalance($cost, $userID, 1);
     }
 ?>
