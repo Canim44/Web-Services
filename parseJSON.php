@@ -49,7 +49,7 @@ function getOptionData($input, &$start, &$putsArray) {
     // cid  |  price    |   change  | changePercent     |    fill   |   strike
     $startPosition = strpos($input, "\"cid\"", $start);
     $cid = parseField($input, "\"cid\"", $start);
-
+printStuff($startPosition, 1);
     $startPosition = strpos($input, "\"p\"", $start);
     $price = parseField($input, "\"p\"", $start);
 
@@ -76,7 +76,7 @@ function getOptionData($input, &$start, &$putsArray) {
 
     $parsed = $cid . "|" . $price . "|" . $change . "|" . $changePercent . "|" . $fill . "|" . $strike;
     echo $parsed. "<br></br>";
-
+printStuff($startPosition, 1);
     array_push($putsArray, $parsed);
     return $startPosition;
 }
