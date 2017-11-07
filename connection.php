@@ -7,6 +7,8 @@
     $serverpass = "Ekwi32D98";
     $database = "ukfl2017g2";
 
+    // F19gb2a7
+
     // Initializing the link to the MySQL database
     $link = mysqli_connect($servername, $serveruser, $serverpass) or die("Error: Connection to Server failed");
     mysqli_select_db($link, $database) or die("Error: Database");
@@ -32,7 +34,7 @@
     // $fieldName will need to be supplied in order to find the field immediately
     function parseField($result, $fieldName, $startPosition) {
         // Move the start position to the field
-        $startPosition = strpos($result, $fieldName, $startPosition);
+        $startPosition = strpos($result, $fieldName);
         $startPosition++;
         // Advance the start position beyond the last quote
         $startPosition = strpos($result, ":", $startPosition);
@@ -50,9 +52,7 @@
 
     // This procedure standardizes the way queries are run with the results formatted in json
     // $link and $query are set up in the caller function
-    function runBuySellQuery($query) {
-        $link = serverConnection();
-
+    function runNoReturnQuery(&$link, $query) {
         if (mysqli_query($link, $query)) {
             return 1;
         }
@@ -60,25 +60,5 @@
             echo mysqli_error($link);
             return 0;
         }
-    }
-
-    function getUserID($user, $loginKey) {
-        $link = serverConnection();
-        $startPosition = 0;
-        $getIDQuery = "SELECT id FROM users WHERE ";
-        $userID = 0;
-
-        if ($user != NULL) {
-            $getIDQuery = $getIDQuery . " username = \"" . $user . "\"";
-        }
-        else {
-            $getIDQuery = $getIDQuery . " loginkey = \"" . $loginKey . "\"";
-        }
-
-        $userID = runQuery($link, $getIDQuery);
-
-        $userID = parseField($userID, "id", $startPosition);
-
-        return $userID;
     }
 ?>

@@ -39,13 +39,3 @@
         echo "Invalid quantity of stock to be sold.";
     }
 ?>
-
-
-<!--
-
-$query = "SELECT * FROM stocks";
-$result = runQuery($link, $query);
-$startPosition = 0;
-$result = parseField($result, "dateBought", $startPosition);
-$result = str_replace(' ', '%20', $result);
-echo $result; -->

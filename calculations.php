@@ -53,6 +53,6 @@ include_once("connection.php");
             $newBalance = $balance + $cost;
         }
         $adjustmentQuery = "UPDATE portfolio SET balance = " . $newBalance . "WHERE id = " . $userID;
-        $result = runBuySellQuery($adjustmentQuery);
+        $result = runNoReturnQuery($adjustmentQuery);
     }
 ?>

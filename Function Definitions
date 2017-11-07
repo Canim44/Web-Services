@@ -9,7 +9,7 @@ connection.php {
     serverConnection()
     runQuery(&$link, $query)
     parseField($result, $fieldName, &$startPosition)
-    runBuySellQuery($query)
+    runNoReturnQuery($link, $query)
     getUserID(user, $loginKey)
 }
 
