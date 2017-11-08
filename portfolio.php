@@ -18,7 +18,7 @@ function executePurchase($cost, $stockArray, $userID, $quantity, $stockOption) {
         if ($stockOption == 1) {
             $purchaseQuery = "INSERT INTO stocks (id, stockID, symbol, price, quantity, quantityRemaining, dateBought) VALUES ("
                 . $userID . ", ". $stockArray[2] . ", \"" . $stockArray[0] . "\", " . $stockArray[5] . ", ". $quantity . ", " . $quantity . ", CURRENT_TIMESTAMP())";
-            $result = runBuySellQuery($purchaseQuery);
+            $result = runNoReturnQuery($purchaseQuery);
 
             return $result;
         }
@@ -38,7 +38,7 @@ function executeSale($cost, $stockArray, $userID, $newQuantity, $stockOption, $b
     $link = serverConnection();
     if ($stockOption == 1) {
         $saleQuery = "UPDATE stocks SET dateSold = CURRENT_TIMESTAMP(), quantityRemaining = " . $newQuantity . " WHERE stockID = " . $stockArray[2] . " AND dateBought = \"" . $buyDate . "\" AND id = ". $userID;
-        $result = runBuySellQuery($saleQuery);
+        $result = runNoReturnQuery($saleQuery);
     }
     if ($result == 1) {
         $success = adjustBalance($cost, $userID, 2);

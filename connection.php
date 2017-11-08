@@ -52,7 +52,7 @@
 
     // This procedure standardizes the way queries are run with the results formatted in json
     // $link and $query are set up in the caller function
-    function runBuySellQuery(&$link, $query) {
+    function runNoReturnQuery(&$link, $query) {
         if (mysqli_query($link, $query)) {
             return 1;
         }
@@ -60,6 +60,5 @@
             echo mysqli_error($link);
             return 0;
         }
-
     }
 ?>
