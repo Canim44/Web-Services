@@ -8,7 +8,7 @@ calculations.php {
 connection.php {
     serverConnection()
     runQuery(&$link, $query)
-    parseField($result, $fieldName, &$startPosition)
+    parseField($result, $fieldName, $startPosition)
     runNoReturnQuery($link, $query)
     getUserID(user, $loginKey)
 }

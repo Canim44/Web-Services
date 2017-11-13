@@ -31,7 +31,7 @@
       $email = substr($email, 0, $position) . "\\" . substr($email, $position);
   }
 
-  function create Portfolio() {
+  function createPortfolio($userID) {
 
   }
 ?>

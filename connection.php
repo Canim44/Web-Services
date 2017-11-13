@@ -61,4 +61,21 @@
             return 0;
         }
     }
+    // This procedure gets the userID ofr the user in question from the database
+    function getUserID($user, $loginKey) {
+        $query = "SELECT ID FROM users WHERE ";
+        $link = serverConnection();
+
+        if ($user != NULL) {
+            $query = $query . "username = '" . $user . "'";
+            $result = runQuery($link, $query);
+            //echo $result;
+        }
+        else {
+            $query = $query . "loginkey = " . $loginKey;
+        }
+        $startPosition = 0;
+        $userID = parseField($result, "\"ID\"", $startPosition);
+        echo $userID;
+    }
 ?>
