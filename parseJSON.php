@@ -38,47 +38,34 @@ function parseOption($output, $stockArray) {
     // Move the start position to the first instance of "puts"
     $startPosition = strpos($output, "\"puts\"", $startPosition);
 
+    // Save the start position of "calls" to compare against where the $startPosition is currently located
+    $callsPosition = strpos($output, "\"calls\"", $startPosition);
+
+    while ($callsPosition > strpos($output, "\"cid\"", $startPosition) {
     //Parsing the data from the JSON file
     $startPosition = getOptionData($output, $startPosition, $putsArray);
-    $startPosition = getOptionData($output, $startPosition, $putsArray);
+    }
 }
 
 function getOptionData($input, $startPosition, &$putsArray) {
     $startPosition = strpos($input, "\"cid\"", $startPosition);
-
-echo "cid";
-printStuff($startPosition, 1);
-
     $cid = parseField($input, "\"cid\"", $startPosition);
-
-    $startPosition = strpos($input, "\"p\"", $startPosition);
     $price = parseField($input, "\"p\"", $startPosition);
-
-    $startPosition = strpos($input, "\"c\"", $startPosition);
     $change = parseField($input, "\"c\"", $startPosition);
-
-    $startPosition = strpos($input, "\"cp\"", $startPosition);
     $changePercent = parseField($input, "\"cp\"", $startPosition);
-
-    $startPosition = strpos($input, "\"b\"", $startPosition);
     $bid = parseField($input, "\"b\"", $startPosition);
-
     if ($bid == "-") {
         $bid = 0;
     }
 
-    $startPosition = strpos($input, "\"a\"", $startPosition);
     $ask = parseField ($input, "\"a\"", $startPosition);
-
     $fill = round(($bid + $ask) / 2, 2);
-
     $startPosition = strpos($input, "\"strike\"", $startPosition);
-    echo $startPosition." strike <br>";
     $strike = parseField($input, "\"strike\"", $startPosition);
-$parsed = "";
+
     $parsed = $cid . "|" . $price . "|" . $change . "|" . $changePercent . "|" . $fill . "|" . $strike;
     echo $parsed. "<br></br>";
-    //array_push($putsArray, $parsed);
+    array_push($putsArray, $parsed);
     return $startPosition;
 }
 
@@ -152,8 +139,5 @@ function parseStock($output) {
     $stocks[7] = parseField($output, "\"op\"", $startPosition);
     $stocks[8] = parseField($output, "\"hi\"", $startPosition);
     $stocks[9] = parseField($output, "\"lo\"", $startPosition);
-// for ($i = 0; $i< 10; $i++) {
-//     echo $stocks[$i] . "<br>";
-// }
     return $stocks;
 }
