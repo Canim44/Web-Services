@@ -43,29 +43,6 @@ function parseOption($output, $stockArray) {
     $startPosition = getOptionData($output, $startPosition, $putsArray);
 }
 
-// getOptionData() will parse the options data into a pipe delimited string:
-// cid | price | change | changePercent | fill | strike
-function getOptionDataTest($input, $startPosition) {
-    $cid = parseFieldOption($input, "\"cid\"", $startPosition);
-    $price = parseFieldOption($input, "\"p\"", $startPosition);
-    $change = parseFieldOption($input, "\"c\"", $startPosition);
-    $changePercent = parseFieldOption($input, "\"cp\"", $startPosition);
-    $bid = parseFieldOption($input, "\"b\"", $startPosition);
-    if ($bid == "-") {
-        $bid = 0;
-    }
-    $ask = parseFieldOption ($input, "\"a\"", $startPosition);
-    $fill = round(($bid + $ask) / 2, 2);
-    $strike = parseFieldOption($input, "\"strike\"", $startPosition);
-    $parsed = $cid . "|" . $price . "|" . $change . "|" . $changePercent . "|" . $fill . "|" . $strike;
-    echo $parsed. "<br>";
-}
-
-
-
-
-
-
 function getOptionData($input, $startPosition, &$putsArray) {
     $startPosition = strpos($input, "\"cid\"", $startPosition);
 

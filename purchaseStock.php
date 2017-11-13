@@ -11,12 +11,13 @@
     $quantity = $_GET["quantity"];
     $user = $_GET["user"];
     $loginKey = $_GET["loginkey"];
+    $buyDate = $_GET["buydate"];
 
     $userID = getUserID($user, $loginKey);
 
     $stockOption = 1;
 
-    // Ping Google Finance to get the latest up to date infromation
+    // Ping Google Finance to get the latest up to date information
     $url = "http://finance.google.com/finance?q=" . $symbol . "&output=json";
 
     curl_setopt($ch, CURLOPT_URL, $url);
