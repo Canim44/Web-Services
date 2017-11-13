@@ -38,41 +38,25 @@ function parseOption($output, $stockArray) {
     // Move the start position to the first instance of "puts"
     $startPosition = strpos($output, "\"puts\"", $startPosition);
 
-
-
-
-
-
-printStuff($startPosition, 1);
-getOptionDataTest($output, $startPosition);
-$startPosition = strpos($output, "\"strike\"", $startPosition);
-
-$startPosition = strpos($output, "\"cid\"", $startPosition);
-echo substr($output, $startPosition, 30) . "<br>";
-$test = parseField($output, "\"cid\"", $startPosition);
-echo $test ."<br>";
-getOptionDataTest($output, $startPosition);
-$startPosition = strpos($output, "\"strike\"", $startPosition);
-
-    // Parsing the data from the JSON file
-    // $startPosition = getOptionData($output, $startPosition, $putsArray);
-    // $startPosition = getOptionData($output, $startPosition, $putsArray);
+    //Parsing the data from the JSON file
+    $startPosition = getOptionData($output, $startPosition, $putsArray);
+    $startPosition = getOptionData($output, $startPosition, $putsArray);
 }
 
 // getOptionData() will parse the options data into a pipe delimited string:
 // cid | price | change | changePercent | fill | strike
 function getOptionDataTest($input, $startPosition) {
-    $cid = parseField($input, "\"cid\"", $startPosition);
-    $price = parseField($input, "\"p\"", $startPosition);
-    $change = parseField($input, "\"c\"", $startPosition);
-    $changePercent = parseField($input, "\"cp\"", $startPosition);
-    $bid = parseField($input, "\"b\"", $startPosition);
+    $cid = parseFieldOption($input, "\"cid\"", $startPosition);
+    $price = parseFieldOption($input, "\"p\"", $startPosition);
+    $change = parseFieldOption($input, "\"c\"", $startPosition);
+    $changePercent = parseFieldOption($input, "\"cp\"", $startPosition);
+    $bid = parseFieldOption($input, "\"b\"", $startPosition);
     if ($bid == "-") {
         $bid = 0;
     }
-    $ask = parseField ($input, "\"a\"", $startPosition);
+    $ask = parseFieldOption ($input, "\"a\"", $startPosition);
     $fill = round(($bid + $ask) / 2, 2);
-    $strike = parseField($input, "\"strike\"", $startPosition);
+    $strike = parseFieldOption($input, "\"strike\"", $startPosition);
     $parsed = $cid . "|" . $price . "|" . $change . "|" . $changePercent . "|" . $fill . "|" . $strike;
     echo $parsed. "<br>";
 }
