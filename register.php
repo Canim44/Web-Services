@@ -16,7 +16,7 @@
 
   $compareOutput = "[{\"COUNT(*)\":\"0\"}]";//$result;
   if (strcmp($result, $compareOutput) == 0) {
-    $registerQuery = "INSERT INTO users (username, password) VALUES ('". $username . "', '" . $password . ", '" . $email "')";
+    $registerQuery = "INSERT INTO users (username, password) VALUES ('". $username . "', '" . $password . ", '" . $email . "')";
     $result = runNoReturnQuery($link, $registerQuery);
   }
   else {
