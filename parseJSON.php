@@ -37,14 +37,23 @@ function parseOption($output, $stockArray) {
     $putsArray = array();
     // Move the start position to the first instance of "puts"
     $startPosition = strpos($output, "\"puts\"", $startPosition);
+
+
+
+
+
+
 printStuff($startPosition, 1);
 getOptionDataTest($output, $startPosition);
-$startPosition = strpos($output, "\"strike\"", 99);
-printStuff($startPosition, 1);
-$startPosition = strpos($output, "\"cid\"");
-$test = parseField($output, "\"cid\"", 265);
+$startPosition = strpos($output, "\"strike\"", $startPosition);
+
+$startPosition = strpos($output, "\"cid\"", $startPosition);
+echo substr($output, $startPosition, 30) . "<br>";
+$test = parseField($output, "\"cid\"", $startPosition);
 echo $test ."<br>";
 getOptionDataTest($output, $startPosition);
+$startPosition = strpos($output, "\"strike\"", $startPosition);
+
     // Parsing the data from the JSON file
     // $startPosition = getOptionData($output, $startPosition, $putsArray);
     // $startPosition = getOptionData($output, $startPosition, $putsArray);
@@ -67,6 +76,12 @@ function getOptionDataTest($input, $startPosition) {
     $parsed = $cid . "|" . $price . "|" . $change . "|" . $changePercent . "|" . $fill . "|" . $strike;
     echo $parsed. "<br>";
 }
+
+
+
+
+
+
 function getOptionData($input, $startPosition, &$putsArray) {
     $startPosition = strpos($input, "\"cid\"", $startPosition);
 
@@ -176,8 +191,8 @@ function parseStock($output) {
     $stocks[7] = parseField($output, "\"op\"", $startPosition);
     $stocks[8] = parseField($output, "\"hi\"", $startPosition);
     $stocks[9] = parseField($output, "\"lo\"", $startPosition);
-for ($i = 0; $i< 10; $i++) {
-    echo $stocks[$i] . "<br>";
-}
+// for ($i = 0; $i< 10; $i++) {
+//     echo $stocks[$i] . "<br>";
+// }
     return $stocks;
 }
