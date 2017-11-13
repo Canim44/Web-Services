@@ -18,8 +18,7 @@
     $registerQuery = "INSERT INTO users (username, password) VALUES ('". $username . "', '" . $password . "')";
     $result = runNoReturnQuery($link, $registerQuery);
   }
-<<<<<<< HEAD
+  else {
+      echo "User exists. <br>";
+  }
 ?>
-=======
-?>
->>>>>>> db596a7ef0a5a6df4cc80d02fe2e468422615306
