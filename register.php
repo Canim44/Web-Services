@@ -20,7 +20,6 @@
   if (strcmp($result, $compareOutput) == 0) {
     $registerQuery = "INSERT INTO users (username, password, email) VALUES ('". $username . "', '" . $password . "', '" . $email . "')";
     $result = runNoReturnQuery($link, $registerQuery);
-    //echo $registerQuery;
   }
   else {
       echo "User exists";
@@ -30,5 +29,9 @@
       $position = strpos($email, "");
 
       $email = substr($email, 0, $position) . "\\" . substr($email, $position);
+  }
+
+  function create Portfolio() {
+
   }
 ?>

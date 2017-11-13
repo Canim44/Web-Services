@@ -41,7 +41,7 @@ function parseOption($output, $stockArray) {
     // Save the start position of "calls" to compare against where the $startPosition is currently located
     $callsPosition = strpos($output, "\"calls\"", $startPosition);
 
-    while ($callsPosition > strpos($output, "\"cid\"", $startPosition) {
+    while ($callsPosition > strpos($output, "\"cid\"", $startPosition)) {
     //Parsing the data from the JSON file
     $startPosition = getOptionData($output, $startPosition, $putsArray);
     }
@@ -64,7 +64,7 @@ function getOptionData($input, $startPosition, &$putsArray) {
     $strike = parseField($input, "\"strike\"", $startPosition);
 
     $parsed = $cid . "|" . $price . "|" . $change . "|" . $changePercent . "|" . $fill . "|" . $strike;
-    echo $parsed. "<br></br>";
+    echo $parsed. "<br>";
     array_push($putsArray, $parsed);
     return $startPosition;
 }
