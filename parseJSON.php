@@ -32,25 +32,49 @@ function parseOption($output, $stockArray) {
 
     // Remove the first element, which is duplicated
     $temp = array_shift($expirations);
-echo $output;
-    $putsArray = array();
-    $startPosition = strpos($output, "\"puts\"", $startPosition);
-    //while ($startPosition < strpos($output, "\"calls\"", $startPosition)) {
-        $startPosition = getOptionData($output, $startPosition, $putsArray);
-        $startPosition = getOptionData($output, $startPosition, $putsArray);
-    //}
 
-    // do {
-    //         $startPosition = getOptionData($output, $startPosition, $putsArray);
-    //         $i++;
-    // } while ($i <= 2);
+    // Create an array that will hold all the puts data
+    $putsArray = array();
+    // Move the start position to the first instance of "puts"
+    $startPosition = strpos($output, "\"puts\"", $startPosition);
+printStuff($startPosition, 1);
+getOptionDataTest($output, $startPosition);
+$startPosition = strpos($output, "\"strike\"", 99);
+printStuff($startPosition, 1);
+$startPosition = strpos($output, "\"cid\"");
+$test = parseField($output, "\"cid\"", 265);
+echo $test ."<br>";
+getOptionDataTest($output, $startPosition);
+    // Parsing the data from the JSON file
+    // $startPosition = getOptionData($output, $startPosition, $putsArray);
+    // $startPosition = getOptionData($output, $startPosition, $putsArray);
+}
+
+// getOptionData() will parse the options data into a pipe delimited string:
+// cid | price | change | changePercent | fill | strike
+function getOptionDataTest($input, $startPosition) {
+    $cid = parseField($input, "\"cid\"", $startPosition);
+    $price = parseField($input, "\"p\"", $startPosition);
+    $change = parseField($input, "\"c\"", $startPosition);
+    $changePercent = parseField($input, "\"cp\"", $startPosition);
+    $bid = parseField($input, "\"b\"", $startPosition);
+    if ($bid == "-") {
+        $bid = 0;
+    }
+    $ask = parseField ($input, "\"a\"", $startPosition);
+    $fill = round(($bid + $ask) / 2, 2);
+    $strike = parseField($input, "\"strike\"", $startPosition);
+    $parsed = $cid . "|" . $price . "|" . $change . "|" . $changePercent . "|" . $fill . "|" . $strike;
+    echo $parsed. "<br>";
 }
 function getOptionData($input, $startPosition, &$putsArray) {
-    // Pipe delimited string will be returned in the following form:
-    // cid  |  price    |   change  | changePercent     |    fill   |   strike
     $startPosition = strpos($input, "\"cid\"", $startPosition);
-    $cid = parseField($input, "\"cid\"", $startPosition);
+
+echo "cid";
 printStuff($startPosition, 1);
+
+    $cid = parseField($input, "\"cid\"", $startPosition);
+
     $startPosition = strpos($input, "\"p\"", $startPosition);
     $price = parseField($input, "\"p\"", $startPosition);
 
@@ -68,18 +92,16 @@ printStuff($startPosition, 1);
     }
 
     $startPosition = strpos($input, "\"a\"", $startPosition);
-    echo $startPosition."<br>";
     $ask = parseField ($input, "\"a\"", $startPosition);
 
     $fill = round(($bid + $ask) / 2, 2);
 
     $startPosition = strpos($input, "\"strike\"", $startPosition);
-    echo $startPosition."<br>";
+    echo $startPosition." strike <br>";
     $strike = parseField($input, "\"strike\"", $startPosition);
-
+$parsed = "";
     $parsed = $cid . "|" . $price . "|" . $change . "|" . $changePercent . "|" . $fill . "|" . $strike;
     echo $parsed. "<br></br>";
-printStuff($startPosition, 1);
     //array_push($putsArray, $parsed);
     return $startPosition;
 }
