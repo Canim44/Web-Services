@@ -4,6 +4,7 @@ include_once("debug.php");
 
 // This function will parse the data provided by the Google Finance's option json
 function parseOption($output, $stockArray) {
+
     // Initializing the parse counters
     $startPosition = 0;
     $endPosition = 0;
@@ -42,8 +43,19 @@ function parseOption($output, $stockArray) {
     $callsPosition = strpos($output, "\"calls\"", $startPosition);
 
     while ($callsPosition > strpos($output, "\"cid\"", $startPosition)) {
-    //Parsing the data from the JSON file
-    $startPosition = getOptionData($output, $startPosition, $putsArray);
+        //Parsing the data from the JSON file
+        $startPosition = getOptionData($output, $startPosition, $putsArray);
+    }
+echo "<br></br><br></br>CALLS<br>";
+    $callsArray = array();
+
+    $startPosition = $callsPosition;
+
+    $endPosition = strpos($output, "\"}],", $startPosition) - $startPosition;
+    echo $endPosition;
+    while ($endPosition > 42) {
+        $startPosition = getOptionData($output, $startPosition, $callsArray);
+        $endPosition = $endPosition - $startPosition;
     }
 }
 
@@ -64,7 +76,7 @@ function getOptionData($input, $startPosition, &$putsArray) {
     $strike = parseField($input, "\"strike\"", $startPosition);
 
     $parsed = $cid . "|" . $price . "|" . $change . "|" . $changePercent . "|" . $fill . "|" . $strike;
-    echo $parsed. "<br>";
+echo $parsed . "<br>";
     array_push($putsArray, $parsed);
     return $startPosition;
 }

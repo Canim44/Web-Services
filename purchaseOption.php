@@ -6,18 +6,23 @@
     // Initialize client URL variable
     $ch = curl_init();
 
-    // Variables passed in from parameters
-    //$cid = $_GET["cid"];
-
     $type = $_GET["type"];
     $symbol = $_GET["symbol"];
-    // $quantity = $_GET["quantity"];
-    // $user = $_GET["user"];
-    // $loginKey = $_GET["loginkey"];
-    // $underlyingID = $_GET["underlying"];
-    //
-    // $userID = getUserID($user, $loginKey);
+    $user = $_GET["user"];
+    $loginKey = $_GET["loginkey"];
+    $quantity = $_GET["quantity"];
+    $optionID = $_GET["quantity"];
 
+    $userID = getUserID($user, $loginKey);
 
+    $stockOption = 2;
 
+    $url = "http://finance.google.com/finance/option_chain?q=" . $symbol . "&output=json";
+
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+
+    $output = curl_exec($ch);
+
+    
 ?>
