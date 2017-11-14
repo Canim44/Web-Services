@@ -151,5 +151,9 @@ function parseStock($output) {
     $stocks[7] = parseField($output, "\"op\"", $startPosition);
     $stocks[8] = parseField($output, "\"hi\"", $startPosition);
     $stocks[9] = parseField($output, "\"lo\"", $startPosition);
+
+    for ($i = 0; $i < 10; $i++) {
+        echo $stocks[$i] . "<br>";
+    }
     return $stocks;
 }
