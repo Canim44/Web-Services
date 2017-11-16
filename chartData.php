@@ -9,7 +9,7 @@ $file = 'http://www.google.com/finance/historical?q=NASDAQ:'
 	. $symbol 
 	. '&startdate=Jan+01%2C+2000&output=csv';
 // Returns FALSE if file not found & dies; otherwise, assigns to $csv
-if (!($csv = file_get_contents($file)) {
+if (!($csv = file_get_contents($file))) {
 	die("Ticker not found");
 $array = array_map("str_getcsv", explode("\n", $csv));
 $json = json_encode($array);
