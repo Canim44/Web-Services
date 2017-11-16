@@ -1,5 +1,6 @@
 <?php
 include_once("connection.php");
+error_reporting(~E_WARNING); // supression for bad ticker
 
 $symbol = $_GET['symbol'];
 
@@ -7,11 +8,9 @@ $symbol = $_GET['symbol'];
 $file = 'http://www.google.com/finance/historical?q=NASDAQ:' 
 	. $symbol 
 	. '&startdate=Jan+01%2C+2000&output=csv';
-if (!file_exists($file)) {
+// Returns FALSE if file not found & dies; otherwise, assigns to $csv
+if (!($csv = file_get_contents($file)) {
 	die("Ticker not found");
-} else {
-	$csv = file_get_contents($file);
-}
 $array = array_map("str_getcsv", explode("\n", $csv));
 $json = json_encode($array);
 print_r($json);
